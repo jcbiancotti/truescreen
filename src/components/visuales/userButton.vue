@@ -2,32 +2,34 @@
 <div class="container-fluid">
 
     <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="iconos material-icons md-48" style="color: white;">menu</span>
+        <span class="iconos-neg inline-icon material-icons md-48">menu</span>
     </button>
 
     <div class="collapse navbar-collapse float-right" id="navbarSupportedContent">
         
         <div class="dropdown navbar-nav ml-auto float-right" v-if="isLogged">
 
-            <span class="float-right" style="color: white;">{{fname}}</span>
-            <button class="btn-link dropdown-toggle" type="button" data-toggle="dropdown" style="border:0;background-color: transparent;">
-                <span class="iconos material-icons md-48">account_circle</span>
-            </button>
-            
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li>
-                    <router-link @click="deleteUserLogged()" to="/" class="dropdown-item">
-                        Desconectar 
-                        <span class="iconos inline-icon material-icons md-48">logout</span> 
-                    </router-link>
-                </li>
-            </ul>
+            <div class="form-control btn-user">
+
+                <span style="color: white;">{{fname}}</span>
+                <button class="dropdown-toggle btn-user" type="button" data-toggle="dropdown">
+                    <span class="iconos-neg inline-icon material-icons md-48">account_circle</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <router-link @click="deleteUserLogged()" to="/" class="dropdown-item">Desconectar
+                            <span class="iconos inline-icon material-icons md-48">logout</span> 
+                        </router-link>
+                    </li>
+                </ul>
+
+            </div>
 
         </div>
         <!-- --------- -->
-        <div class="btn" v-else> 
+        <div v-else> 
 
-            <router-link to="/login"><span class="inline-icon material-icons md-48">account_circle</span> Acceder</router-link>
+            <router-link to="/login" class="form-control btn-user">Acceder <span class="iconos-neg inline-icon material-icons md-48">account_circle</span></router-link>
 
         </div>
     

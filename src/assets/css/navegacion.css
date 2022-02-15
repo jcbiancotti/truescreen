@@ -4,56 +4,13 @@
 }
 /* BARRA SUPERIOR */
 .navbar-true {
+    display: flex; 
+    align-items: center;    
     border: 1px solid var(--true-background-color); 
-    padding-top:2px; 
-    padding-bottom:2px;
-    background-color: var(--true-color-empresa);    
+    background-color: var(--true-color-empresa); 
+    height: 40px; 
+    line-height: 40px;
 }
-
-
-/* ul li {
-    font-size: 8pt;
-    background-color: var(--true-button-background);
-    color: var(--true-button-color);
-    border: none;    
-}
-.nav-pills .nav-link.active,
-.show > .nav-pills {
-    font-size: 8px;
-    margin: 2px;
-    padding: 10px;    
-    background: var(--true-button-hover-background) !important;
-}
-.nav-pills .nav-link,
-.show > .nav-pills {
-    font-size: 8px;
-    margin: 2px;
-    padding: 10px;    
-    color: var(--true-button-hover-color);
-    background: var(--true-button-color) !important;
-}
-.nav-item {
-    font-size: 8pt;
-    padding-left: 3px;
-    color: var(--true-button-hover-color);
-    background-color: transparent;
-    border-color: var(--true-button-hover-border); 
-}
-.nav-item:hover {
-    font-size: 8pt;
-    padding-left: 3px;
-    color: var(--true-button-hover-color-plus);
-    background-color: transparent;
-    border-color: transparent; 
-
-}
-.nav-pills .nav-link:hover {
-    font-size: 8pt;
-    color: var(--true-button-hover-color-plus);
-    background-color: transparent;
-    border-color: var(--true-button-hover-border); 
-
-} */
 
 .nav-item {
     font-size: 8pt;
@@ -103,9 +60,10 @@
 
 }
 
-.router-link {
+router-link {
+    font-size: 8pt;
+    padding-left: 3px;
     color: var(--true-button-color);
     background-color: var(--true-button-background);
-    border-color: var(--true-button-border);    
-    font-size: 8pt;
+    border-color: var(--true-button-border); 
 }

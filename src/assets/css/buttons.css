@@ -31,4 +31,18 @@
     background-color: var(--true-button-disabled-background);
     border-color: var(--true-button-disabled-border);
 }
-
+/* BOTON CON EL MENU DE APP */
+.btn-user, .btn-user > * {
+    color: var(--true-button-hover-color);
+    background-color: transparent;
+    border: none;
+    font-size: 8pt;
+    padding-left: 3px;
+}
+.btn-user:hover, .btn-user:hover > * {
+    font-size: 8pt;
+    padding-left: 3px;
+    color: var(--true-button-hover-color-plus);
+    background-color: transparent;
+    border: none;
+}

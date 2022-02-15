@@ -2,7 +2,6 @@
 <div class="container-fluid">
 
     <h3>Plantillas de los documentos</h3>
-    <h5>{{fName}}</h5>
 
     <navbar />
     <router-view/>

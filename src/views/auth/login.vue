@@ -23,8 +23,8 @@
                             </div>
                         </div>                        
                        
-                        <div class="form-group btn float-center">
-                            <a @click="login()">Accede <i class="fas fa-sign-in-alt"></i></a>
+                        <div @click="login()" class="form-group btn float-center">Accede 
+                            <i class="fas fa-sign-in-alt"></i>
                         </div>
 
                         <div class="form-group">

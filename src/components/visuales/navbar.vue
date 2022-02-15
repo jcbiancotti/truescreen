@@ -1,6 +1,7 @@
 <template>
 <div class="container-fluid">
     <nav class="navbar navbar-expand-md p-0">
+
         <div class="col text-left navbar-true">
 
             <router-link v-if="isLogged" to="/inicio" class="btn float-left">Home <i class="fa fa-home"></i></router-link>
@@ -9,6 +10,7 @@
             <userButton />
 
         </div>
+
     </nav>
 
 </div>    
