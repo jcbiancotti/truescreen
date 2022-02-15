@@ -1,0 +1,26 @@
+:root {
+    /* Colores generales */
+    --true-color-empresa: darkgreen;
+    --true-background-color: darkgreen;
+    --true-letras-color: black;
+    --true-header-color: #e3f2fd;
+    --true-border-color: silver;
+
+    /* BUTTON */
+    /* ENABLED */
+    --true-button-color: darkgreen;
+    --true-button-border: green;
+    --true-button-background: white;
+    /* ENABLED HOVER */
+    --true-button-hover-color: white;
+    --true-button-hover-border: darkgreen;
+    --true-button-hover-background: rgb(26, 189, 26);
+    --true-button-hover-color-plus: yellow;
+    /* DISABLED */
+    --true-button-disabled-color: grey;
+    --true-button-disabled-border: grey;
+    --true-button-disabled-background: white;    
+
+    /* Desplegables */
+    --true-select-background-color:  rgb(26, 189, 26);
+}

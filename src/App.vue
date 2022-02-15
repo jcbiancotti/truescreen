@@ -1,26 +1,90 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
+<div class="container-fluid">
 
+    <h3>Plantillas de los documentos</h3>
+    <h5>{{fName}}</h5>
+
+    <navbar />
+    <router-view/>
+
+</div>
+</template>
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import store from '@/store'
+import auth from '@/utils/auth'
+import navbar from '@/components/visuales/navbar'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+    name: 'App',
+    data() {
+        return {
+            
+        }
+    },
+    components:{
+        navbar
+    },
+    methods: {
+
+    },
+    beforeCreate() {
+        if(localStorage.token) {
+            store.commit('marcaLogged', true);
+            store.commit('marcaFullName', localStorage.userFullName);
+            try {
+                auth.getUserLogged()
+                .then((result) => {
+                    if(result == null) {
+                        store.commit('marcaLogged', false);
+                        store.commit('marcaFullName', '');                        
+                    }
+                })
+
+            } catch(error) {
+                console.log(error)
+            }
+        }
+    },
+    computed: {
+        fName:{
+            get() {
+                return store.state.userFullName;
+            }
+        }
+    }
+
 }
 </script>
 
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
+    @import './assets/css/variables.css';
+
+    /* <!-- GOOGLE FONTS --> */
+    @import url('https://fonts.googleapis.com/css?family=Anton');
+    @import url('https://fonts.googleapis.com/css?family=Arvo');
+    @import url('https://fonts.googleapis.com/css?family=Audiowide');
+    @import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Cabin');
+    @import url('https://fonts.googleapis.com/css?family=Cookie');
+    @import url('https://fonts.googleapis.com/css?family=Dancing+Script&display=');
+    @import url('https://fonts.googleapis.com/css?family=Dancing+Script');
+    @import url('https://fonts.googleapis.com/css?family=Elsie');
+    @import url('https://fonts.googleapis.com/css?family=Lato');
+    @import url('https://fonts.googleapis.com/css?family=Montserrat');
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+    @import url('https://fonts.googleapis.com/css?family=Oswald');
+    @import url('https://fonts.googleapis.com/css?family=Patua+One');
+    @import url('https://fonts.googleapis.com/css2?family=PT+Sans');
+    @import url('https://fonts.googleapis.com/css?family=Roboto');
+    @import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+    @import url('https://fonts.googleapis.com/css?family=Sofia');
+    @import url('https://fonts.googleapis.com/css?family=Tangerine');
+    @import url('https://fonts.googleapis.com/css?family=Titan+One');
+    @import url('https://fonts.googleapis.com/css?family=Trirong');
+    @import url('https://fonts.googleapis.com/css?family=Varela+Round');
+    @import url('https://fonts.googleapis.com/css?family=Vollkorn');
+
 </style>

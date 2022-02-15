@@ -1,0 +1,8 @@
+.iconos {
+    color: var(--true-button-color);
+    background-color: transparent;
+}
+.inline-icon {
+   vertical-align: bottom;
+   font-size: 18px !important;
+}
