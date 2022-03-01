@@ -16,18 +16,23 @@ h1 {
     font-size: 12pt;
     margin-top: 3px;
     margin-bottom: 3px;
+    padding: 5px;
     color: var(--true-color-empresa);
 }
 h2 {
+    padding: 5px;;
     font-size: 11pt;
 }
 h3 {
+    padding: 5px;
     font-size: 10pt;
 }
 h4 {
+    padding: 5px;
     font-size: 9pt;
 }
 h5 {
+    padding: 5px;
     font-size: 8pt;
 }
 p {

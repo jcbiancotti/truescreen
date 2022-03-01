@@ -4,6 +4,8 @@ import auth from '@/utils/auth'
 
 import store from '@/store'
 
+//import page404 from '@/views/sistema/page404'
+
 const routes = [
     {
         path: '/',
@@ -24,23 +26,28 @@ const routes = [
         meta: { requiresAuth: true}
     },
     {
-        path: '/newdoc',
-        name: 'Newdoc',
-        component: () => import('@/views/newdoc.vue'),
+        path: '/newscreen',
+        name: 'Newscreen',
+        component: () => import('@/views/newscreen.vue'),
         meta: { requiresAuth: true}
     },
     {
-        path: '/editdoc/:p_claveId?',
+        path: '/editscreen/:p_claveId?',
         name: 'Editdoc',
-        component: () => import('@/views/newdoc.vue'),
+        component: () => import('@/views/newscreen.vue'),
         meta: { requiresAuth: true}
     },
     {
-        path: '/deldoc',
-        name: 'Deldoc',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
-        meta: { requiresAuth: true}
-    }      
+        path: '/404',
+        name: '404',
+        component: () => import('@/views/sistema/page404.vue'),
+        meta: { requiresAuth: false }
+    },
+    {
+        path: "/:catchAll(.*)",
+        redirect: '/404'
+    }    
+
 ]
 
 const router = createRouter({

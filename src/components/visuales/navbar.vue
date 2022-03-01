@@ -5,7 +5,7 @@
         <div class="col text-left navbar-true">
 
             <router-link v-if="isLogged" to="/inicio" class="btn float-left">Home <i class="fa fa-home"></i></router-link>
-            <router-link v-if="isLogged" to="/newdoc" class="btn float-left">Nuevo <i class="far fa-file"></i></router-link>
+            <router-link v-if="isLogged" to="/newscreen" class="btn float-left">Nueva <i class="far fa-file"></i></router-link>
 
             <userButton />
 

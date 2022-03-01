@@ -1,8 +1,7 @@
 <template>
 <div class="container-fluid">
 
-    <h1>About</h1>
-
+    <h1>Hola mundo</h1>
 
 </div>
 </template>

@@ -123,7 +123,7 @@ export default {
 
     },
     methods: {
-    leerDocumentos() {
+    leerScreens() {
 
         try {
 
@@ -131,11 +131,11 @@ export default {
 
             this.hiddentelon = false;
 
-            datos.leerLista("sys_head_documentos", "true", ["clave","id", "titulo","version","activa"], "")
+            datos.leerLista("sys_head_screens", "true", ["clave","id", "titulo","version","activa"], "")
             .then((result) => {
 
                 if(global.DEBUG)
-                    console.log("leerDocumentos", "datos devueltos datos.leerLista", result);
+                    console.log("leerScreens", "datos devueltos datos.leerLista", result);
 
 
                 if(result.success == 1) {
@@ -276,7 +276,7 @@ export default {
 
   },
   mounted() {
-    this.leerDocumentos();
+    this.leerScreens();
 
   },
 }

@@ -1,7 +1,7 @@
 <template>
 <div class="container-fluid">
 
-    <h3>Plantillas de los documentos</h3>
+    <h3>Diseño de pantallas</h3>
 
     <navbar />
     <router-view/>
