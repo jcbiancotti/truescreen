@@ -3,7 +3,7 @@
     
     <telon :hidden="hiddentelon"/>
     
-    <!-- LISTA DE DOCUMENTOS -->
+    <!-- LISTA DE PANTALLAS -->
     <div class="card-deck">
 
         <div class="row p-2" v-for="documento of aDocumentos" :key="documento.clave">
@@ -28,12 +28,10 @@
 
                     </div>
                     
-                    <div class="card-footer">
-                        <router-link :to="`${'/editdoc/' + documento.id}`" class="btn float-right" title="Editar este documento">
-                            <i class="fas fa-edit"></i>
-                        </router-link>
-                        <a @click="Clonar(documento.id)" class="btn float-right" title="Duplicar este documento"> <i class="far fa-copy"></i> </a>
-                        <a @click="Borrar(documento.id)" class="btn float-right" title="Borrar este documento"  > <i class="far fa-trash-alt"></i> </a>
+                    <div class="card-footer text-end">
+                        <span @click="Editar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Editar este documento">edit</span>
+                        <span @click="Clonar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Duplicar este documento">content_copy</span>
+                        <span @click="Borrar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Borrar este documento">delete</span>
 
                         
                     </div>
@@ -123,161 +121,155 @@ export default {
 
     },
     methods: {
-    leerScreens() {
+        leerScreens() {
 
-        try {
+            try {
 
-            this.aDocumentos = [];
+                this.aDocumentos = [];
 
-            this.hiddentelon = false;
+                this.hiddentelon = false;
 
-            datos.leerLista("sys_head_screens", "true", ["clave","id", "titulo","version","activa"], "")
+                datos.leerLista("sys_screens", "true", ["clave","id", "titulo","version","activa"], "")
+                .then((result) => {
+
+                    if(global.DEBUG)
+                        console.log("leerScreens", "datos devueltos datos.leerLista", result);
+
+
+                    if(result.success == 1) {
+
+                        if(result.status == 200) {
+
+                            for(let x = 0; x < result.data.length; x++) {
+
+                                let act = false;
+                                if(result.data[x].activa == 1) {
+                                    act = true;
+                                }
+                                
+                                this.aDocumentos.push({
+                                    clave: result.data[x].clave,
+                                    id: result.data[x].id,
+                                    titulo: result.data[x].titulo,
+                                    version:result.data[x].version,
+                                    activa:result.data[x].activa,
+                                    isActiva: act
+                                });
+                                
+                            }
+
+                        } 
+
+                    }
+
+                }).finally(() => {
+                    this.hiddentelon = true;
+                });
+
+            } catch(error) {
+                console.log(error)
+            }
+
+
+        },
+        Editar(pId) {
+            this.$router.push("/editscreen/" + pId)
+        },        
+        Borrar(pId) {
+
+            funciones.popAlert('warning', 'Quieres borrar la definición de esta pantalla?', true, true, 8000, "Sí, bórrala!")
             .then((result) => {
 
-                if(global.DEBUG)
-                    console.log("leerScreens", "datos devueltos datos.leerLista", result);
+                if(result==true) {
 
+                    try {
 
-                if(result.success == 1) {
+                        this.hiddentelon = false;
 
-                    if(result.status == 200) {
+                        datos.borrarPantalla("id='" + pId + "'")
+                        .then((result) => {
 
-                        for(let x = 0; x < result.data.length; x++) {
+                            if(result.success == 1 && result.status == 200) {
+                                funciones.popAlert('success', 'Definición eliminada!', false, false, 3000, "Ok")
+                                .then(() => {
+                                    this.leerDocumentos();
+                                })
 
-                            let act = false;
-                            if(result.data[x].activa == 1) {
-                                act = true;
+                            } else {
+                                funciones.popAlert('error', 'No se ha podido eliminar la definición en este momento', true, false, 8000, "Ok")
                             }
-                            
-                            this.aDocumentos.push({
-                                clave: result.data[x].clave,
-                                id: result.data[x].id,
-                                titulo: result.data[x].titulo,
-                                version:result.data[x].version,
-                                activa:result.data[x].activa,
-                                isActiva: act
-                            });
-                            
-                        }
 
-                    } 
-
-                }
-
-            }).finally(() => {
-                this.hiddentelon = true;
-            });
-
-        } catch(error) {
-            console.log(error)
-        }
-
-
-    },
-    Borrar(pId) {
-
-        funciones.popAlert('warning', 'Quieres borrar la definición de este documento?', true, true, 8000, "Sí, bórralo!")
-        .then((result) => {
-
-            if(result==true) {
-
-                try {
-
-                    this.hiddentelon = false;
-
-                    datos.borrarDocumento("id='" + pId + "'")
-                    .then((result) => {
-
-                        if(result.success == 1 && result.status == 200) {
-                            funciones.popAlert('success', 'Documento eliminado!', false, false, 3000, "Ok")
-                            .then(() => {
-                                this.leerDocumentos();
-                            })
-
-                        } else {
-                            funciones.popAlert('error', 'No se ha podido eliminar el documento en este momento', true, false, 8000, "Ok")
-                        }
-
-                    }).finally(() => {
-                        this.hiddentelon = true;
-                    })
-                    
-                } catch (error) {
-                    console.log(error);
-                }
-                
-            }
-
-        })
-
-    },
-    Clonar(pId) {
-
-        funciones.popAlert('question', 'Quieres hacer una copia de la definición de este documento?', true, true, 8000, "Sí, cópialo")
-        .then((result) => {
-
-            if(result==true) {
-
-                this.hiddentelon = false;   
-
-                try {
-
-                    datos.leerLista('sys_documentos', "id='" + pId + "'", ['objeto'], '')
-                    .then((result) => {
-
-                        if(result.success == 1 && result.status == 200) {
-
-                            this.modelo = JSON.parse(result.data[0].objeto.split('&quot;').join('"'));
-
-                            let tmp = this.modelo;
+                        }).finally(() => {
+                            this.hiddentelon = true;
+                        });
                         
-                            tmp.oMetadatos.docuId = funciones.generarUUID2();
-                            tmp.oMetadatos.titulo = "Copia de " + this.modelo.oMetadatos.titulo;
-                            tmp.oMetadatos.version = 0;
-                            tmp.oMetadatos.activa = false;
-
-                            let almacenar = {id: tmp.oMetadatos.docuId, titulo: tmp.oMetadatos.titulo, version: tmp.oMetadatos.version, activa: tmp.oMetadatos.activa};
-                            datos.grabarHeadDocumento(almacenar)                             
-                            .then((result) => {
-
-                                if(result.success == 1 && result.status == 201) {
-
-                                    // Almacenar propiedades del documento
-                                    almacenar = {id: tmp.oMetadatos.docuId, objeto: JSON.stringify(this.modelo, null, '\t')};
-                                    datos.grabarDocumento(almacenar)
-                                    .then(() => {
-
-                                        funciones.popAlert("success", "Nuevo documento creado!", false, false, 3000, "ok")
-                                        .then(() => {
-                                            this.leerDocumentos();
-                                        });
-
-                                    })
-
-                                }
-
-                            })
-
-                        }
-
-                    }).finally(() => {
-                        this.hiddentelon = true;
-                    })
-
-                } catch(error) {
-                    console.log(error);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                    
                 }
 
-            }
+            })
 
-        })
+        },
+        Clonar(pId) {
+
+            funciones.popAlert('question', 'Quieres hacer una copia de la definición de esta pantalla?', true, true, 8000, "Sí, cópiala")
+            .then((result) => {
+
+                if(result==true) {
+
+                    this.hiddentelon = false;   
+
+                    try {
+
+                        datos.leerLista('sys_screens', "id='" + pId + "'", ['objeto'], '')
+                        .then((result) => {
+
+                            if(result.success == 1 && result.status == 200) {
+
+                                this.modelo = JSON.parse(result.data[0].objeto.split('&quot;').join('"'));
+
+                                let tmp = this.modelo;
+                            
+                                tmp.oMetadatos.docuId = funciones.generarUUID2();
+                                tmp.oMetadatos.titulo = "Copia de " + this.modelo.oMetadatos.titulo;
+                                tmp.oMetadatos.version = 0;
+                                tmp.oMetadatos.activa = false;
+
+                                // Almacenar propiedades del documento
+                                let almacenar = {id: tmp.oMetadatos.docuId, objeto: JSON.stringify(this.modelo, null, '\t')};
+                                datos.grabarPantalla(almacenar)
+                                .then(() => {
+
+                                    funciones.popAlert("success", "Nueva definición creada!", false, false, 3000, "ok")
+                                    .then(() => {
+                                        this.leerPantallas();
+                                    });
+
+                                })
+
+
+                            }
+
+                        }).finally(() => {
+                            this.hiddentelon = true;
+                        });
+
+                    } catch(error) {
+                        console.log(error);
+                    }
+
+                }
+
+            })
+
+        },
 
     },
+    mounted() {
+        this.leerScreens();
 
-  },
-  mounted() {
-    this.leerScreens();
-
-  },
+    }
 }
 </script>

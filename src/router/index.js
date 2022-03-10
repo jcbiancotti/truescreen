@@ -4,8 +4,6 @@ import auth from '@/utils/auth'
 
 import store from '@/store'
 
-//import page404 from '@/views/sistema/page404'
-
 const routes = [
     {
         path: '/',
