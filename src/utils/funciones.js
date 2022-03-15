@@ -211,9 +211,11 @@ export default {
         return txt;
         
     },
-    getModelo(pTipo, pAncho) {
+    getModelo(pTipo, pAncho, pDecimales) {
 
         let ttx = '';
+        let num = '';
+
         switch (pTipo) {
             case 'C':
                 if (pAncho > 0) {
@@ -222,14 +224,25 @@ export default {
                 break;
 
             case 'N': 
-                ttx = '-1.234';
-                if (pAncho > 0) {
-                    ttx += ',' + Array(pAncho + 1).join("0");
+                for (let x = 0; x < pAncho; x++) {
+                    num += '9';
                 }
+                if (pDecimales > 0) {
+                    num += ',' + Array(pDecimales + 1).join("9");
+                }                
+                ttx = this.formatNumber(num, '', pDecimales);
                 break;
 
             case 'M':
-                ttx = '-1.234,56 €';
+                ttx = '-1.234';
+                if (pDecimales > 0) {
+                    ttx += ',' + Array(pDecimales + 1).join("0");
+                }
+                ttx += ' €'
+                break;
+
+            case 'K':
+                ttx = 'Si';
                 break;
 
             case 'D':
@@ -244,6 +257,10 @@ export default {
                 ttx = '14:30:15 hs';   
                 break;
 
+            case 'A':
+                ttx = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis vulputate';   
+                break;
+            
         }
         return ttx;
 
@@ -282,6 +299,134 @@ export default {
 
 
     },    
+    formatNumber(valor, monetario, decimales) {
+
+        let nuevo_valor = 0;
+
+        // Quitar todos los puntos
+        valor = valor.split('.').join('');
+
+        // Sin coma, agregar ,00xxx
+        let posComa = valor.indexOf(',');
+        if ( posComa === -1) {
+            nuevo_valor = valor;
+            if (decimales > 0) {
+                nuevo_valor += ',' + Array(decimales + 1).join("0");
+                posComa = nuevo_valor.indexOf(',');
+            } else {
+                posComa = 0;
+            }
+        } else {
+            let ndec = valor.substr(posComa + 1, decimales);
+            nuevo_valor = valor.substr(0, posComa);
+            if (decimales > 0) {
+                nuevo_valor += ',' + ndec + Array(decimales - ndec.length + 1).join("0");
+            }
+        }
+        
+        // Poner un punto cada tres digitos
+        let v = 0;
+        let tmp = '';
+        for (let t = posComa - 1; t >= 0; t--) {
+            tmp = valor.substr(t, 1) + tmp;
+            v++;
+            if (v == 3 && t > 0) {
+                tmp = '.' + tmp;
+                v = 0;
+            }
+        }
+        nuevo_valor = tmp + nuevo_valor.substr(posComa);
+
+        if (monetario) {
+            nuevo_valor += ' ' + monetario;
+        }
+
+        return nuevo_valor;
+
+    },
+    tablaErrores(pCodigo) {
+
+        let litError = {};
+
+        switch (pCodigo) {
+            case 'e001':
+                litError = { criticidad: 1, literal: "Falta indicar el dato" };
+                break;
+            case 'e002':
+                litError = { criticidad: 2, literal: "Alerta" };
+                break;            
+
+        }
+        return litError;
+    },
+    async parseSQL(pCadenaSQL) {
+
+        let opciones = { 'headers': { 'Authorization': 'Bearer ' + localStorage.token} };
+
+        if(global.DEBUG)
+            console.log("datos.parseSQL", "datos recibidos como parametros a enviar", pCadenaSQL);
+        
+        let envio = {
+            cadena: pCadenaSQL
+        }
+
+        let resultado = await axios.post(global.ENDPOINT_PATH + 'sistema/parseSQL/parseSQL.php', envio, opciones);
+ 
+        if(global.DEBUG)
+            console.log("funciones.parseSQL", "datos devueltos back", resultado);
+    
+        return resultado.data; 
+
+    },
+    async ejecutaQuery(pQuery, pFiltros) {
+
+        let opciones = { 'headers': { 'Authorization': 'Bearer ' + localStorage.token} };
+
+        if(global.DEBUG)
+            console.log("datos.ejecutaQuery", "datos recibidos como parametros a enviar", pQuery);
+        
+        // Objeto consulta
+        let consulta = 
+        {
+            "operacion":"EXECUTE",
+            "query":pQuery,
+            "filtros":pFiltros
+        }        
+        let resultado = await axios.post(global.ENDPOINT_PATH + 'datos/data_manager.php', consulta, opciones);            
+ 
+        if(global.DEBUG)
+            console.log("funciones.parseSQL", "datos devueltos back", resultado);
+    
+        return resultado.data; 
+
+    },
+    async readAsBlob(pUrl, pArchivo) {
+
+        console.log("En funciones.readAsBlob", pUrl, pArchivo);
+
+        return fetch(pUrl,
+            {
+                method: 'GET',
+                'Content-Type': "multipart/form-data",
+                mode: 'cors'
+            }
+        )
+            .then((response)=> {
+                return response.blob();
+            })
+            .then(blob => {
+
+                let devolver = blob;
+                console.log("DATA BLOB:", devolver);
+
+                devolver.name = pArchivo;
+                
+                return devolver;
+            });
+
+
+    },
+
 
 
 

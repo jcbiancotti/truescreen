@@ -41,100 +41,56 @@ export default {
         return resultado.data;          
             
     },
-    async grabarHeadDocumento(pObjeto) {
+    async grabarScreen(pObjeto) {
 
         let opciones = { 'headers': { 'Authorization': 'Bearer ' + localStorage.token} };
 
         let envio = {
             "operacion":"ADD",
-            "tabla":'sys_head_documentos',
-            "modelo": ["id", "titulo", "version", "activa"],
+            "tabla":'sys_screens',
+            "modelo": ["id", "titulo", "version", "tipo", "activa", "objeto"],
             "objeto": pObjeto
         }    
         let resultado = await axios.post(global.ENDPOINT_PATH + 'datos/data_manager.php', envio, opciones);
  
         if(global.DEBUG)
-            console.log("datos.grabarHeadDocumento", "datos devueltos back", resultado);
+            console.log("datos.grabarScreen", "datos devueltos back", resultado);
     
         return resultado.data;          
             
-    },
-    async grabarDocumento(pObjeto) {
-
-        let opciones = { 'headers': { 'Authorization': 'Bearer ' + localStorage.token} };
-
-        let envio = {
-            "operacion":"ADD",
-            "tabla":'sys_documentos',
-            "modelo": ["id", "objeto"],
-            "objeto": pObjeto
-        }    
-        let resultado = await axios.post(global.ENDPOINT_PATH + 'datos/data_manager.php', envio, opciones);
- 
-        if(global.DEBUG)
-            console.log("datos.grabarDocumento", "datos devueltos back", resultado);
-    
-        return resultado.data;          
-            
-    },
-    async actualizarHeadDocumento(pClave, pObjeto) {
+    },    
+    async actualizarScreen(pClave, pObjeto) {
 
         let opciones = { 'headers': { 'Authorization': 'Bearer ' + localStorage.token} };
 
         let envio = {
             "operacion":"UPDATE",
-            "tabla": 'sys_head_documentos',
+            "tabla": 'sys_screens',
             "clave": pClave,
-            "modelo": ["id", "titulo", "version", "activa"],
+            "modelo": ["id", "titulo", "version", "tipo", "activa", "objeto"],
             "objeto": pObjeto
         }    
         let resultado = await axios.post(global.ENDPOINT_PATH + 'datos/data_manager.php', envio, opciones);
  
         if(global.DEBUG)
-            console.log("datos.actualizarHeadDocumento", "datos devueltos back", resultado);
+            console.log("datos.actualizarScreen", "datos devueltos back", resultado);
     
         return resultado.data;          
             
     },
-    async actualizarDocumento(pClave, pObjeto) {
-
-        let opciones = { 'headers': { 'Authorization': 'Bearer ' + localStorage.token} };
-
-        let envio = {
-            "operacion":"UPDATE",
-            "tabla": 'sys_documentos',
-            "clave": pClave,
-            "modelo": ["id", "objeto"],
-            "objeto": pObjeto
-        }    
-        let resultado = await axios.post(global.ENDPOINT_PATH + 'datos/data_manager.php', envio, opciones);
- 
-        if(global.DEBUG)
-            console.log("datos.actualizarDocumento", "datos devueltos back", resultado);
-    
-        return resultado.data;          
-            
-    },
-    async borrarDocumento(pClave) {
+    async borrarScreen(pClave) {
 
         let opciones = { 'headers': { 'Authorization': 'Bearer ' + localStorage.token} };
 
         let envio = {
             "operacion":"DELETE",
-            "tabla": 'sys_head_documentos',
+            "tabla": 'sys_screens',
             "clave": pClave,
         }    
         let resultado = await axios.post(global.ENDPOINT_PATH + 'datos/data_manager.php', envio, opciones);
  
-        envio = {
-            "operacion":"DELETE",
-            "tabla": 'sys_documentos',
-            "clave": pClave,
-        }    
-        resultado = await axios.post(global.ENDPOINT_PATH + 'datos/data_manager.php', envio, opciones);
- 
         if(global.DEBUG)
-            console.log("datos.borrarDocumento", "datos devueltos back", resultado);
+            console.log("datos.borrarScreen", "datos devueltos back", resultado);
     
         return resultado.data; 
 

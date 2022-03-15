@@ -46,3 +46,15 @@
     background-color: transparent;
     border: none;
 }
+/* BOTONES CON SOLO UN ICONO */
+.btn-img, .btn-img > * {
+    color: var(--true-button-color);
+    background-color: transparent;
+    border: none;
+    font-size: 18pt;
+    padding: 3px;
+}
+.btn-img:hover, .btn-img:hover > * {
+    color: var(--true-button-hover-background);
+    cursor: pointer;
+}

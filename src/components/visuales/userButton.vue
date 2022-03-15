@@ -9,7 +9,7 @@
         
         <div class="dropdown navbar-nav ml-auto float-right" v-if="isLogged">
 
-            <div class="form-control btn-user">
+            <div class="btn-user">
 
                 <span style="color: white;">{{fname}}</span>
                 <button class="dropdown-toggle btn-user" type="button" data-toggle="dropdown">
@@ -29,7 +29,7 @@
         <!-- --------- -->
         <div v-else> 
 
-            <router-link to="/login" class="form-control btn-user">Acceder <span class="iconos-neg inline-icon material-icons md-48">account_circle</span></router-link>
+            <router-link to="/login" class="btn-user">Acceder <span class="iconos-neg inline-icon material-icons md-48">account_circle</span></router-link>
 
         </div>
     

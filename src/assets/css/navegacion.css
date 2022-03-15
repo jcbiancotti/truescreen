@@ -18,6 +18,8 @@
     color: var(--true-button-hover-color);
     background-color: transparent;
     border-color: var(--true-button-hover-border); 
+    overflow: hidden;
+
 }
 
 /* Pestaña seleccionada */
@@ -28,6 +30,15 @@
     padding: 10px;    
     background: var(--true-button-hover-background) !important;
 }
+
+.nav-pills .nav-link.disabled,
+.show > .nav-pills {
+    font-size: 8px;
+    margin: 2px;
+    padding: 10px;    
+    background: rgb(191, 191, 191) !important;
+}
+
 /* Resto de pestañas */
 .nav-pills .nav-link,
 .show > .nav-pills {
@@ -48,22 +59,36 @@
     background: var(--true-button-color) !important;
 }
 
-
 /* Grabar */
 .nav-item:hover {
     font-size: 8pt;
     padding-left: 3px;
     color: var(--true-button-hover-color-plus);
-    font-weight: bold;
+    /* font-weight: bold; */
     background-color: transparent;
     border-color: transparent; 
-
 }
-
-router-link {
+ul, li,
+.dropdown-menu {
     font-size: 8pt;
     padding-left: 3px;
     color: var(--true-button-color);
     background-color: var(--true-button-background);
     border-color: var(--true-button-border); 
+}
+.dropdown-item {
+    font-size: 8pt;
+    padding-left: 3px;
+    color: var(--true-button-color);
+    background-color: var(--true-button-background);
+    border-color: var(--true-button-border); 
+}
+.dropdown-item:hover {
+    font-size: 8pt;
+    padding-left: 3px;
+    color: var(--true-button-color);
+    background-color: var(--true-button-background); 
+    border-color: var(--true-button-border);
+    font-weight: bold; 
+    
 }

@@ -4,21 +4,22 @@
     <telon :hidden="hiddentelon"/>
     
     <!-- LISTA DE PANTALLAS -->
-    <div class="card-deck">
+    <!-- <div class="card-deck"> -->
 
-        <div class="row p-2" v-for="documento of aDocumentos" :key="documento.clave">
+        <div class="row w-100 p-2 w-0">
 
-            <div class="col d-flex pt-3">
+            <div class="col-lg-4 mb-2" v-for="documento of aDocumentos" :key="documento.clave">
 
-                <div class="card">
+                <div class="card mx-auto" style="width:18rem;">
 
                     <div class="card-header text-left" style="line-height:12px;background-color: var(--true-color-empresa);">
-                        <p style="color:silver">documento id: {{documento.id}}</p>
+                        <p style="color:silver">Pantalla id: {{documento.id}}</p>
                     </div>
                     <div class="card-body text-justify" style="line-height : 12px;">
 
                         <p>Título: {{documento.titulo}}</p>
                         <p>Version: {{documento.version}}</p>
+                        <p>tipo: {{documento.tipo_lit}}</p>
                         <p>
                             <label class="content-input">
                                 <input type="checkbox" v-model="documento.isActiva" :disabled="true">
@@ -32,8 +33,6 @@
                         <span @click="Editar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Editar este documento">edit</span>
                         <span @click="Clonar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Duplicar este documento">content_copy</span>
                         <span @click="Borrar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Borrar este documento">delete</span>
-
-                        
                     </div>
 
                 </div>
@@ -42,7 +41,7 @@
 
         </div>
 
-    </div>
+    <!-- </div> -->
 
   </div>
 </template>
@@ -59,60 +58,36 @@ export default {
         return {
             hiddentelon: true,
             aDocumentos: [],
-            // Modelo del documento
+            dTipos: [
+                {id: '0', literal: "Selecciona ..."},
+                {id: 'G', literal: "Tabla de gestiones"},
+                {id: 'C', literal: "CRUD (create, read, update, delete)"},
+                {id: 'D', literal: "Informar datos"},
+                {id: 'I', literal: "Listado o Informe"},
+                {id: 'B', literal: "Buscador"},
+                {id: 'S', literal: "Selector"},
+            ],            
+            // Modelo de la pantalla            
             modelo: {
-                oMetadatos: {
-                    docuId: '', 
+                oDatosGenerales: {
+                    screenId: funciones.generarUUID2(), 
                     titulo: '',
                     version: 0,
-                    activa: false,
-                    orientacion: 'V',
-                    ancho: 595,
-                    alto: 842,
+                    activa: false,                    
                 },
-                oHeader: {
-                    backcolor: "#FFFFFF",
-                    height: (842*20/100),
-                    hPorce: 20,
-                    logo: {
-                        SiNo: false,
-                        posY: 10,
-                        posX: 10,
-                        height: 100,
-                        width: 100,
-                        img: '',
-                        pHeight: 33,
-                        pWidth: 10,
-                    },
-                    textos: [],
+                oDisenio: {
+                    titulo: '',
+                    subtitulo: '',
+                    tipo: '0'
                 },
-                oSubHeader: {
-                    backcolor: "#FFFFFF",
-                    height: (842*5/100),  
-                    hPorce: 5,
-                    textos: [],
-                },
-                oBody: {
-                    backcolor: "#FFFFFF",
-                    height: (842*55/100),
-                    hPorce: 55,   
-                    textos: [], 
-                },
-                oSubTotales: {
-                    backcolor: "#FFFFFF",
-                    height: (842*5/100), 
-                    hPorce: 5,  
-                    textos: [],
-                },
-                oPie: {
-                    backcolor: "#FFFFFF",
-                    height: (842*15/100),
-                    hPorce: 15,
-                    textos: [],
-                },
-                oCampos: [],
-
-            },
+                oTablaGestiones: {
+                    idQuery: '0',
+                    Columnas: [],
+                    Row_editar: false,
+                    Row_eliminar: false,
+                    
+                }
+            }
 
         }
     },
@@ -129,7 +104,7 @@ export default {
 
                 this.hiddentelon = false;
 
-                datos.leerLista("sys_screens", "true", ["clave","id", "titulo","version","activa"], "")
+                datos.leerLista("sys_screens", "true", ["clave","id", "titulo","tipo","version","activa"], "")
                 .then((result) => {
 
                     if(global.DEBUG)
@@ -146,11 +121,13 @@ export default {
                                 if(result.data[x].activa == 1) {
                                     act = true;
                                 }
+                                let xtipo = this.dTipos[this.dTipos.findIndex(t => t.id === result.data[x].tipo)].literal;
                                 
                                 this.aDocumentos.push({
                                     clave: result.data[x].clave,
                                     id: result.data[x].id,
                                     titulo: result.data[x].titulo,
+                                    tipo_lit: xtipo,
                                     version:result.data[x].version,
                                     activa:result.data[x].activa,
                                     isActiva: act
@@ -232,20 +209,32 @@ export default {
 
                                 let tmp = this.modelo;
                             
-                                tmp.oMetadatos.docuId = funciones.generarUUID2();
-                                tmp.oMetadatos.titulo = "Copia de " + this.modelo.oMetadatos.titulo;
-                                tmp.oMetadatos.version = 0;
-                                tmp.oMetadatos.activa = false;
-
+                                tmp.oDatosGenerales.screenId = funciones.generarUUID2();
+                                tmp.oDatosGenerales.titulo = "Copia de " + this.modelo.oDatosGenerales.titulo;
+                                tmp.oDatosGenerales.version = 0;
+                                tmp.oDatosGenerales.activa = false;
+ 
                                 // Almacenar propiedades del documento
-                                let almacenar = {id: tmp.oMetadatos.docuId, objeto: JSON.stringify(this.modelo, null, '\t')};
-                                datos.grabarPantalla(almacenar)
-                                .then(() => {
+                                let almacenar = {
+                                    id:      tmp.oDatosGenerales.screenId, 
+                                    titulo:  tmp.oDatosGenerales.titulo, 
+                                    version: tmp.oDatosGenerales.version,
+                                    activa:  tmp.oDatosGenerales.activa, 
+                                    objeto:  JSON.stringify(this.modelo, null, '\t')
+                                };
+                                datos.grabarScreen(almacenar)
+                                .then((result) => {
 
-                                    funciones.popAlert("success", "Nueva definición creada!", false, false, 3000, "ok")
-                                    .then(() => {
-                                        this.leerPantallas();
-                                    });
+                                    if(result.success == 1 && result.status == 201) {
+
+                                        funciones.popAlert("success", "Nueva definición creada!", false, false, 3000, "ok")
+                                        .then(() => {
+                                            this.leerScreens();
+                                        });
+
+                                    } else {
+                                        funciones.popAlert("error", "No se ha podido grabar!", false, false, 3000, "ok")
+                                    }
 
                                 })
 

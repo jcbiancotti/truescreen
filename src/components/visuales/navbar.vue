@@ -4,8 +4,8 @@
 
         <div class="col text-left navbar-true">
 
-            <router-link v-if="isLogged" to="/inicio" class="btn float-left">Home <i class="fa fa-home"></i></router-link>
-            <router-link v-if="isLogged" to="/newscreen" class="btn float-left">Nueva <i class="far fa-file"></i></router-link>
+            <router-link v-if="isLogged" to="/inicio" class="btn float-left">Home <span class="iconos inline-icon material-icons">home</span></router-link>
+            <router-link v-if="isLogged" to="/newscreen" class="btn float-left">Nueva pantalla <span class="iconos inline-icon material-icons">desktop_windows</span></router-link>
 
             <userButton />
 
