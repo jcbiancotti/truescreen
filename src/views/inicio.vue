@@ -169,7 +169,7 @@ export default {
                             if(result.success == 1 && result.status == 200) {
                                 funciones.popAlert('success', 'Definición eliminada!', false, false, 3000, "Ok")
                                 .then(() => {
-                                    this.leerDocumentos();
+                                    this.leerScreens();
                                 })
 
                             } else {

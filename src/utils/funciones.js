@@ -344,6 +344,31 @@ export default {
         return nuevo_valor;
 
     },
+    noPuntos(ev, niComa) {
+
+        var e = ev || window.event;
+        var key = e.keyCode || e.which;
+        var valor = ev.target.value;
+
+        // console.log("KEY:", key, niComa)
+
+        // Cambiar punto por coma
+        if ((key == 110 || key == 190) && valor.indexOf(',') === -1 && !niComa) {
+            ev.path[0].value += ',';
+        }
+
+        // Teclas permitidas
+        if (key == 8 || key == 9 || key == 37 || key == 39 || key == 46 || key == 91 || key == 92 || (key === 188 && valor.indexOf(',') === -1 && !niComa)) {
+            return
+        }
+        // Rechazo
+        if (
+            !((key >= 96 && key <= 105) || (key >= 48 && key <= 57)) || ((key == 188 || key == 110 || key == 190) && niComa)  
+        ) {
+            e.preventDefault();
+        }
+
+    },      
     tablaErrores(pCodigo) {
 
         let litError = {};

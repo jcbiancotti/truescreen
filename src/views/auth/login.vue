@@ -9,9 +9,8 @@
                 <div class="card-body">
 
                     <form action @submit.prevent="cero">
-
-                        <div class="form-group">
-                            <label for="correo">Correo electr&oacute;nico</label>
+                        <label for="correo">Correo electr&oacute;nico</label>
+                        <div class="form-group input-group addon">
                             <input type="email" class="form-control" name="correo" id="correo" placeholder="Tu correo electrónico..." v-model="modelo.usuario">
                         </div>
 

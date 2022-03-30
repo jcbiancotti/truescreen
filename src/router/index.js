@@ -31,7 +31,7 @@ const routes = [
     },
     {
         path: '/editscreen/:p_claveId?',
-        name: 'Editdoc',
+        name: 'Editscreen',
         component: () => import('@/views/newscreen.vue'),
         meta: { requiresAuth: true}
     },

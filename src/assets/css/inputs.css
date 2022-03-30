@@ -1,9 +1,7 @@
-
-
 .form-control {
     font-size: 8pt !important; 
     resize: vertical !important;
-    border-radius: 5px !important;
+    border-radius: 5px !important; 
     resize: vertical !important;
     border: 1px solid var(--true-button-border) !important;
 }
@@ -11,6 +9,13 @@
     border: 1px solid blue !important;
 }
 
+.input-group .btn {
+    border-radius: 5px !important;
+    border: 1px solid var(--true-button-border);
+    padding-top: 3px;
+    height: 35px;
+   
+}
 .input-group input {
     font-size: 8pt !important; 
     border-radius: 5px !important;
