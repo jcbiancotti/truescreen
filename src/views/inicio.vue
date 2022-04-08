@@ -121,6 +121,7 @@ export default {
                                 if(result.data[x].activa == 1) {
                                     act = true;
                                 }
+
                                 let xtipo = this.dTipos[this.dTipos.findIndex(t => t.id === result.data[x].tipo)].literal;
                                 
                                 this.aDocumentos.push({
@@ -163,7 +164,7 @@ export default {
 
                         this.hiddentelon = false;
 
-                        datos.borrarPantalla("id='" + pId + "'")
+                        datos.borrarScreen("id='" + pId + "'")
                         .then((result) => {
 
                             if(result.success == 1 && result.status == 200) {
@@ -219,6 +220,7 @@ export default {
                                     id:      tmp.oDatosGenerales.screenId, 
                                     titulo:  tmp.oDatosGenerales.titulo, 
                                     version: tmp.oDatosGenerales.version,
+                                    tipo:    tmp.oDisenio.tipo,
                                     activa:  tmp.oDatosGenerales.activa, 
                                     objeto:  JSON.stringify(this.modelo, null, '\t')
                                 };

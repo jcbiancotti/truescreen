@@ -217,7 +217,36 @@
                                     </div>
                                 </td> 
                             </tr>
-                        
+                            <tr v-if="modelo.oTablaGestiones.idQuery != '0' && tgCadenaSQL != ''">
+                                <td colspan="3">
+                                    <!-- LISTA DE FILTROS -->
+                                    <div class="btn-img text-start">
+                                        <h4>Filtros</h4>
+                                    </div> 
+                                    <div class="tableFixHead table-responsive" style="height:auto;">
+                                    <table >
+                                        <thead>
+                                            <th>Etiqueta</th>
+                                            <th>Tipo</th>
+                                            <th>Obligatorio</th>
+                                            <th>Variable en la consulta</th>
+                                            <!-- <th>Valor por defecto</th> -->
+                                        </thead>
+                                        <tr v-for="registro of aFiltros" :key="registro.id">
+                                            <td>{{registro.etiqueta}}</td>
+                                            <td>{{registro.tipo_lit}}</td>
+                                            <td>
+                                                <span v-if="registro.obligatorio == true">Si</span>
+                                                <span v-if="registro.obligatorio == false">No</span>                                                
+                                            </td>
+                                            <td>{{registro.variable}}</td>
+                                            <!-- <td>{{registro.valordefecto}}</td> -->
+                                        </tr>
+
+                                    </table>
+                                    </div>     
+                                </td>                           
+                            </tr>                        
                         </table>
                         <!-- NUEVA COLUMNA -->
                         <div class="btn-img text-end" @click="tg_expanded = !tg_expanded">
@@ -383,7 +412,7 @@
                         <!-- /////////////////////////////////////////////////////////////////////////////////// -->  
                         <div class="accordion-item">
 
-                            <h3 class="accordion-header" id="CRUD00-header">
+                            <h3 class="accordion-header" id="CRUD00-header" ref="CRUD00accordion1">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#CRUD00" aria-expanded="true" aria-controls="CRUD00" style="color: var(--true-button-color);">
                                 Paso 1 (Lista de registros)
                                 </button>
@@ -421,7 +450,36 @@
                                                     </div>
                                                 </td> 
                                             </tr>
-                                        
+                                            <tr v-if="modelo.oCRUD00.idQuery != '0' && crCadenaSQL != ''">
+                                                <td colspan="3">
+                                                    <!-- LISTA DE FILTROS -->
+                                                    <div class="btn-img text-start">
+                                                        <h4>Filtros</h4>
+                                                    </div> 
+                                                    <div class="tableFixHead table-responsive" style="height:auto;">
+                                                    <table >
+                                                        <thead>
+                                                            <th>Etiqueta</th>
+                                                            <th>Tipo</th>
+                                                            <th>Obligatorio</th>
+                                                            <th>Variable en la consulta</th>
+                                                            <!-- <th>Valor por defecto</th> -->
+                                                        </thead>
+                                                        <tr v-for="registro of aFiltros" :key="registro.id">
+                                                            <td>{{registro.etiqueta}}</td>
+                                                            <td>{{registro.tipo_lit}}</td>
+                                                            <td>
+                                                                <span v-if="registro.obligatorio == true">Si</span>
+                                                                <span v-if="registro.obligatorio == false">No</span>                                                
+                                                            </td>
+                                                            <td>{{registro.variable}}</td>
+                                                            <!-- <td>{{registro.valordefecto}}</td> -->
+                                                        </tr>
+
+                                                    </table>
+                                                    </div>     
+                                                </td>                           
+                                            </tr>                                         
                                         </table>
 
                                         <!-- NUEVA COLUMNA -->
@@ -554,12 +612,12 @@
                                                 </td>        
 
                                             </tr>  
-                                        <tr v-if="modelo.oCRUD00.btn_Listar == true">
+                                            <tr v-if="modelo.oCRUD00.btn_Listar == true">
                                                 <td class="text-start">
                                                     <label>(*) Consulta de datos para el listado:</label>
                                                 </td>
                                                 <td colspan="2" class="text-start">
-                                                    <select ref="cr3Query" class="form-select" v-model="modelo.oCRUD00.idQueryListado" @change="crLCambioQuery()"> 
+                                                    <select ref="crLQuery" class="form-select" v-model="modelo.oCRUD00.idQueryListado" @change="crLCambioQuery()"> 
                                                         <option v-for="q of aQuerys" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.id}} {{q.descripcion}}</option>
                                                     </select>
                                                 </td>
@@ -577,7 +635,37 @@
                                                         <textarea ref="crLConsultaSQL" id="crLConsultaSQL" class="form-control" disabled rows="5" :maxlength="5000" style="height: 100px;width: 100%;font-family:Courier" v-model="crLCadenaSQL" placeholder="Consulta SQL completa"></textarea>
                                                     </div>
                                                 </td> 
-                                            </tr>                                                                                    
+                                            </tr>     
+                                            <tr v-if="modelo.oCRUD00.idQueryListado != '0' && crLCadenaSQL != ''">
+                                                <td colspan="3">
+                                                    <!-- LISTA DE FILTROS -->
+                                                    <div class="btn-img text-start">
+                                                        <h4>Filtros</h4>
+                                                    </div> 
+                                                    <div class="tableFixHead table-responsive" style="height:auto;">
+                                                    <table >
+                                                        <thead>
+                                                            <th>Etiqueta</th>
+                                                            <th>Tipo</th>
+                                                            <th>Obligatorio</th>
+                                                            <th>Variable en la consulta</th>
+                                                            <!-- <th>Valor por defecto</th> -->
+                                                        </thead>
+                                                        <tr v-for="registro of aFiltros" :key="registro.id">
+                                                            <td>{{registro.etiqueta}}</td>
+                                                            <td>{{registro.tipo_lit}}</td>
+                                                            <td>
+                                                                <span v-if="registro.obligatorio == true">Si</span>
+                                                                <span v-if="registro.obligatorio == false">No</span>                                                
+                                                            </td>
+                                                            <td>{{registro.variable}}</td>
+                                                            <!-- <td>{{registro.valordefecto}}</td> -->
+                                                        </tr>
+
+                                                    </table>
+                                                    </div>     
+                                                </td>                           
+                                            </tr>  
                                         </table>   
                                         </div>
 
@@ -831,7 +919,7 @@
 
                     <form action @submit.prevent="cero">
 
-                        <div class="btn-img float-end" @click="cd_expanded = !cd_expanded">
+                        <div ref="cdCampos" class="btn-img float-end" @click="cd_expanded = !cd_expanded">
                             <h3 class="float-end">Campos</h3>
                             <span v-if="cd_expanded == false" class="material-icons">add_circle_outline</span>
                             <span v-if="cd_expanded == true" class="material-icons">remove_circle_outline</span>
@@ -1049,6 +1137,159 @@
 
                     <form action @submit.prevent="cero">
 
+                        <div class="btn-img text-end">
+                            <h3 class="float-end">Consulta origen del listado</h3>
+                            <span class="material-icons">radio_button_unchecked</span>
+                        </div>     
+                        <table>
+                            <!-- QUERY -->
+                            <tr class="text-start">
+                                <td class="text-start" style="width: 30%;">
+                                    <label>(*) Consulta de datos:</label>
+                                </td>
+                                <td class="text-start" style="width: 60%;">
+                                    <select ref="liQuery" class="form-select" v-model="modelo.oListado.idQuery" @change="liCambioQuery()"> 
+                                        <option v-for="q of aQuerys" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.id}} {{q.descripcion}}</option>
+                                    </select>
+                                </td>
+                                <td class="text-start" style="width: 10%;">
+                                    <span v-if="modelo.oListado.idQuery == '0'" class="iconos inline-icon btn-img material-icons" title="Selecciona una consulta">visibility_off</span>
+                                    <span @click="CargaConsulta(modelo.oListado.idQuery)" v-if="modelo.oListado.idQuery != '0'" class="iconos inline-icon btn-img material-icons" title="Ver consulta">visibility</span>
+                                </td>
+                            </tr>
+                            <tr v-if="modelo.oListado.idQuery != '0' && liCadenaSQL != ''">
+                                <td colspan="3"> 
+                                    <div  class="w-100 input-group addon">
+                                        <div class="container-fluid">
+                                            <span @click="liCadenaSQL = ''" class="iconos inline-icon btn-img material-icons float-end" title="Cerrar">close</span>
+                                        </div>
+                                        <textarea ref="liConsultaSQL" id="liConsultaSQL" class="form-control" disabled rows="5" :maxlength="5000" style="height: auto;width: 100%;font-family:Courier;margin-bottom: 0;" v-model="liCadenaSQL" placeholder="Consulta SQL completa"></textarea>
+                                    </div>
+                                </td> 
+                            </tr>
+                            <tr v-if="modelo.oListado.idQuery != '0' && liCadenaSQL != ''">
+                                <td colspan="3">
+                                    <!-- LISTA DE FILTROS -->
+                                    <div class="btn-img text-start">
+                                        <h4>Filtros</h4>
+                                    </div> 
+                                    <div class="tableFixHead table-responsive" style="height:auto;">
+                                    <table >
+                                        <thead>
+                                            <th>Etiqueta</th>
+                                            <th>Tipo</th>
+                                            <th>Obligatorio</th>
+                                            <th>Variable en la consulta</th>
+                                            <!-- <th>Valor por defecto</th> -->
+                                        </thead>
+                                        <tr v-for="registro of aFiltros" :key="registro.id">
+                                            <td>{{registro.etiqueta}}</td>
+                                            <td>{{registro.tipo_lit}}</td>
+                                            <td>
+                                                <span v-if="registro.obligatorio == true">Si</span>
+                                                <span v-if="registro.obligatorio == false">No</span>                                                
+                                            </td>
+                                            <td>{{registro.variable}}</td>
+                                            <!-- <td>{{registro.valordefecto}}</td> -->
+                                        </tr>
+
+                                    </table>
+                                    </div>     
+                                </td>                           
+                            </tr>
+                        
+                        </table>
+                        <!-- NUEVA COLUMNA -->
+                        <div ref="liColumnas" class="btn-img text-end" @click="li_expanded = !li_expanded">
+                            <h3 class="float-end">Columnas del informe</h3>
+                            <span v-if="li_expanded == false" class="material-icons">add_circle_outline</span>
+                            <span v-if="li_expanded == true" class="material-icons">remove_circle_outline</span>
+                        </div>
+
+                        <div v-if="li_expanded">     
+
+                            <table>
+                                <!-- PRIMER RENGLON -->
+                                <tr>
+                                    <!-- TITULO -->
+                                    <td class="w-30">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) T&iacute;tulo para la columna:</label>
+                                            <input ref="refliTituloColumna" type="text" class="form-control" v-model="liTituloColumna" placeholder="Título para la columna">
+                                        </div> 
+                                    </td>
+                                    <!-- CAMPO -->
+                                    <td class="w-60">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) Campo:</label>
+                                            <select ref="refliCampoColumna" class="form-select" v-model="liCampoColumna">
+                                                <option v-for="q of aCampos" :key="q.id" :disabled="q.id=='0'" :value="q.descripcion">{{q.descripcion}}</option>
+                                            </select>        
+                                        </div>                            
+                                    </td>
+                                    <!-- BOTONES -->
+                                    <td class="w-10">
+                                        <span @click="liAgregar()" class="iconos inline-icon btn-img material-icons" title="Agregar a la lista">save_alt</span>
+                                        <span @click="liDescartar()" class="iconos inline-icon btn-img material-icons" title="Descartar">clear</span>                                    
+                                    </td>
+                                </tr>
+                                <!-- SEGUNDO RENGLON -->
+                                <tr>
+                                    <td>
+                                    </td> 
+                                    <td>
+                                    </td>                                     
+                                    <td class="text-end" style="color:red;">
+                                        {{liMensaje}}
+                                    </td>
+                                </tr>                                
+                            </table>
+
+                        </div>
+
+                        <!-- LISTA DE COLUMNAS -->
+                        <div class="tableFixHead table-responsive" style="height:auto;">
+                        <table >
+                            <thead>
+                                <th>T&iacute;tulo</th>
+                                <th>Campo</th>
+                                <th>Acciones</th>
+                            </thead>
+                            <tr v-for="registro of modelo.oListado.Columnas" :key="registro.id">
+                                <td>{{registro.titulo}}</td>
+                                <td>{{registro.campo}}</td>
+                                <td>
+                                    <span @click="liQuitar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
+                                    <span @click="liEditar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Editar este registro">mode_edit</span>
+                                </td>
+                            </tr>
+
+                        </table>
+                        </div>
+
+                        <!-- PLANTILLA DE DOCUMENTO A UTILIZAR -->
+                        <div class="btn-img text-end">
+                            <h3 class="float-end">Plantilla para el informe</h3>
+                            <span class="material-icons">radio_button_unchecked</span>
+                        </div>                        
+                        <table>
+                            <tr class="text-start">
+                                <td class="text-start" style="width: 30%;">
+                                    <label>(*) Plantilla de documentos:</label>
+                                </td>
+                                <td class="text-start" style="width: 60%;">
+                                    <select ref="liPlantilla" class="form-select" v-model="modelo.oListado.idPlantilla"> 
+                                        <option v-for="q of aDocumentos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.id}} {{q.descripcion}}</option>
+                                    </select>
+                                </td>
+                                <td class="text-start" style="width: 30%;">
+                                </td>
+                            </tr>
+                        
+                        </table>
+
+
+
                     </form>
 
                 </div>
@@ -1071,6 +1312,157 @@
 
                     <form action @submit.prevent="cero">
 
+                        <div class="btn-img text-end">
+                            <h3 class="float-end">Consulta para realizar la búsqueda</h3>
+                            <span class="material-icons">radio_button_unchecked</span>
+                        </div>     
+                        <table>
+                            <!-- QUERY -->
+                            <tr class="text-start">
+                                <td class="text-start" style="width: 30%;">
+                                    <label>(*) Consulta de datos:</label>
+                                </td>
+                                <td class="text-start" style="width: 60%;">
+                                    <select ref="buQuery" class="form-select" v-model="modelo.oBuscador.idQuery" @change="buCambioQuery()"> 
+                                        <option v-for="q of aQuerys" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.id}} {{q.descripcion}}</option>
+                                    </select>
+                                </td>
+                                <td class="text-start" style="width: 10%;">
+                                    <span v-if="modelo.oBuscador.idQuery == '0'" class="iconos inline-icon btn-img material-icons" title="Selecciona una consulta">visibility_off</span>
+                                    <span @click="CargaConsulta(modelo.oBuscador.idQuery)" v-if="modelo.oBuscador.idQuery != '0'" class="iconos inline-icon btn-img material-icons" title="Ver consulta">visibility</span>
+                                </td>
+                            </tr>
+                            <tr v-if="modelo.oBuscador.idQuery != '0' && buCadenaSQL != ''">
+                                <td colspan="3"> 
+                                    <div  class="w-100 input-group addon">
+                                        <div class="container-fluid">
+                                            <span @click="buCadenaSQL = ''" class="iconos inline-icon btn-img material-icons float-end" title="Cerrar">close</span>
+                                        </div>
+                                        <textarea ref="buConsultaSQL" id="buConsultaSQL" class="form-control" disabled rows="5" :maxlength="5000" style="height: auto;width: 100%;font-family:Courier;margin-bottom: 0;" v-model="buCadenaSQL" placeholder="Consulta SQL"></textarea>
+                                    </div>
+                                </td> 
+                            </tr>
+                            <tr v-if="modelo.oBuscador.idQuery != '0' && buCadenaSQL != ''">
+                                <td colspan="3">
+                                    <!-- LISTA DE FILTROS -->
+                                    <div class="btn-img text-start">
+                                        <h4>Filtros</h4>
+                                    </div> 
+                                    <div class="tableFixHead table-responsive" style="height:auto;">
+                                    <table >
+                                        <thead>
+                                            <th>Etiqueta</th>
+                                            <th>Tipo</th>
+                                            <th>Obligatorio</th>
+                                            <th>Variable en la consulta</th>
+                                            <!-- <th>Valor por defecto</th> -->
+                                        </thead>
+                                        <tr v-for="registro of aFiltros" :key="registro.id">
+                                            <td>{{registro.etiqueta}}</td>
+                                            <td>{{registro.tipo_lit}}</td>
+                                            <td>
+                                                <span v-if="registro.obligatorio == true">Si</span>
+                                                <span v-if="registro.obligatorio == false">No</span>                                                
+                                            </td>
+                                            <td>{{registro.variable}}</td>
+                                            <!-- <td>{{registro.valordefecto}}</td> -->
+                                        </tr>
+
+                                    </table>
+                                    </div>     
+                                </td>                           
+                            </tr>
+                        
+                        </table>
+                        <!-- NUEVA COLUMNA -->
+                        <div ref="buColumnas" class="btn-img text-end" @click="bu_expanded = !bu_expanded">
+                            <h3 class="float-end">Columnas del resultado</h3>
+                            <span v-if="bu_expanded == false" class="material-icons">add_circle_outline</span>
+                            <span v-if="bu_expanded == true" class="material-icons">remove_circle_outline</span>
+                        </div>
+
+                        <div v-if="bu_expanded">     
+
+                            <table>
+                                <!-- PRIMER RENGLON -->
+                                <tr>
+                                    <!-- TITULO -->
+                                    <td class="w-30">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) T&iacute;tulo para la columna:</label>
+                                            <input ref="refbuTituloColumna" type="text" class="form-control" v-model="buTituloColumna" placeholder="Título para la columna">
+                                        </div> 
+                                    </td>
+                                    <!-- CAMPO -->
+                                    <td class="w-60">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) Campo:</label>
+                                            <select ref="refbuCampoColumna" class="form-select" v-model="buCampoColumna">
+                                                <option v-for="q of aCampos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                            </select>        
+                                        </div>                            
+                                    </td>
+                                    <!-- BOTONES -->
+                                    <td class="w-10">
+                                        <span @click="buAgregar()" class="iconos inline-icon btn-img material-icons" title="Agregar a la lista">save_alt</span>
+                                        <span @click="buDescartar()" class="iconos inline-icon btn-img material-icons" title="Descartar">clear</span>                                    
+                                    </td>
+                                </tr>
+                                <!-- SEGUNDO RENGLON -->
+                                <tr>
+                                    <td>
+                                    </td> 
+                                    <td>
+                                    </td>                                     
+                                    <td class="text-end" style="color:red;">
+                                        {{buMensaje}}
+                                    </td>
+                                </tr>                                
+                            </table>
+
+                        </div>
+
+                        <!-- LISTA DE COLUMNAS -->
+                        <div class="tableFixHead table-responsive" style="height:auto;">
+                        <table >
+                            <thead>
+                                <th>T&iacute;tulo</th>
+                                <th>Campo</th>
+                                <th>Acciones</th>
+                            </thead>
+                            <tr v-for="registro of modelo.oBuscador.Columnas" :key="registro.id">
+                                <td>{{registro.titulo}}</td>
+                                <td>{{registro.campo}}</td>
+                                <td>
+                                    <span @click="buQuitar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
+                                    <span @click="buEditar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Editar este registro">mode_edit</span>
+                                </td>
+                            </tr>
+
+                        </table>
+                        </div>
+
+                        <!-- CAMPO DEVOLVER -->
+                        <div class="btn-img text-end">
+                            <h3 class="float-end">Campo para devolver el dato seleccionado</h3>
+                            <span class="material-icons">radio_button_unchecked</span>
+                        </div> 
+                        <table>
+                            <tr>
+                                <td class="text-start" style="width: 30%;">
+                                    <label>(*) Campo para devolver seleccionado:</label>
+                                </td>
+                                <td class="text-start input-group addon" style="width: 60%;">
+                                    <select ref="refbuDevolverValor" class="form-select" v-model="modelo.oBuscador.devolverValor">
+                                        <option v-for="q of aCampos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                    </select> 
+                                </td>
+                                <td></td>
+                            </tr>
+                            
+                        </table>
+
+
                     </form>
 
                 </div>
@@ -1092,6 +1484,216 @@
                 <div class="card-body">
 
                     <form action @submit.prevent="cero">
+
+                        <div class="btn-img text-end">
+                            <h3 class="float-end">Consulta para obtener la lista de seleccionables</h3>
+                            <span class="material-icons">radio_button_unchecked</span>
+                        </div>     
+                        <table>
+                            <!-- QUERY -->
+                            <tr class="text-start">
+                                <td class="text-start" style="width: 30%;">
+                                    <label>(*) Consulta de datos:</label>
+                                </td>
+                                <td class="text-start" style="width: 60%;">
+                                    <select ref="seQuery" class="form-select" v-model="modelo.oSelector.idQuery" @change="seCambioQuery()"> 
+                                        <option v-for="q of aQuerys" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.id}} {{q.descripcion}}</option>
+                                    </select>
+                                </td>
+                                <td class="text-start" style="width: 10%;">
+                                    <span v-if="modelo.oSelector.idQuery == '0'" class="iconos inline-icon btn-img material-icons" title="Selecciona una consulta">visibility_off</span>
+                                    <span @click="CargaConsulta(modelo.oSelector.idQuery)" v-if="modelo.oSelector.idQuery != '0'" class="iconos inline-icon btn-img material-icons" title="Ver consulta">visibility</span>
+                                </td>
+                            </tr>
+                            <tr v-if="modelo.oSelector.idQuery != '0' && seCadenaSQL != ''">
+                                <td colspan="3"> 
+                                    <div class="w-100 input-group addon">
+                                        <div class="container-fluid">
+                                            <span @click="seCadenaSQL = ''" class="iconos inline-icon btn-img material-icons float-end" title="Cerrar">close</span>
+                                        </div>
+                                        <textarea ref="seConsultaSQL" id="seConsultaSQL" class="form-control" disabled rows="5" :maxlength="5000" style="height: auto;width: 100%;font-family:Courier;margin-bottom: 0;" v-model="seCadenaSQL" placeholder="Consulta SQL"></textarea>
+                                    </div>
+                                </td> 
+                            </tr>
+                            <tr v-if="modelo.oSelector.idQuery != '0' && seCadenaSQL != ''">
+                                <td colspan="3">
+                                    <!-- LISTA DE FILTROS -->
+                                    <div class="btn-img text-start">
+                                        <h4>Filtros</h4>
+                                    </div> 
+                                    <div class="tableFixHead table-responsive" style="height:auto;">
+                                    <table >
+                                        <thead>
+                                            <th>Etiqueta</th>
+                                            <th>Tipo</th>
+                                            <th>Obligatorio</th>
+                                            <th>Variable en la consulta</th>
+                                            <!-- <th>Valor por defecto</th> -->
+                                        </thead>
+                                        <tr v-for="registro of aFiltros" :key="registro.id">
+                                            <td>{{registro.etiqueta}}</td>
+                                            <td>{{registro.tipo_lit}}</td>
+                                            <td>
+                                                <span v-if="registro.obligatorio == true">Si</span>
+                                                <span v-if="registro.obligatorio == false">No</span>                                                
+                                            </td>
+                                            <td>{{registro.variable}}</td>
+                                            <!-- <td>{{registro.valordefecto}}</td> -->
+                                        </tr>
+
+                                    </table>
+                                    </div>     
+                                </td>                           
+                            </tr>
+                            <tr>
+                                <td class="text-start" style="width: 30%;">
+                                    <label>(*) Límite de registros seleccionables (0 = sin limites):</label>
+                                </td>
+                                <td>
+                                    <div class="text-start input-group addon" style="width: 30%;"> 
+                                        <input type="text" class="form-control" v-model="modelo.oSelector.maxSeleccion" @keydown="noPuntos($event, true)">
+                                    </div>
+                                </td>
+                                <td style="width: 10%;"></td>
+                            </tr>
+                        
+                        </table>
+
+                        <!-- DATOS PARA SELECCION -->
+                        <div ref="seColumnasO" class="btn-img text-end" @click="se_expandedO = !se_expandedO">
+                            <h3 class="float-end">Columnas para los registros seleccionables</h3>
+                            <span v-if="se_expandedO == false" class="material-icons">add_circle_outline</span>
+                            <span v-if="se_expandedO == true" class="material-icons">remove_circle_outline</span>
+                        </div>
+
+                        <div v-if="se_expandedO">     
+
+                            <table>
+                                <!-- PRIMER RENGLON -->
+                                <tr>
+                                    <!-- TITULO -->
+                                    <td class="w-30">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) T&iacute;tulo para la columna:</label>
+                                            <input ref="refseTituloColumnaO" type="text" class="form-control" v-model="seTituloColumnaO" placeholder="Título para la columna">
+                                        </div> 
+                                    </td>
+                                    <!-- CAMPO -->
+                                    <td class="w-60">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) Campo:</label>
+                                            <select ref="refseCampoColumnaO" class="form-select" v-model="seCampoColumnaO">
+                                                <option v-for="q of aCampos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                            </select>        
+                                        </div>                            
+                                    </td>
+                                    <!-- BOTONES -->
+                                    <td class="w-10">
+                                        <span @click="seAgregarO()" class="iconos inline-icon btn-img material-icons" title="Agregar a la lista">save_alt</span>
+                                        <span @click="seDescartarO()" class="iconos inline-icon btn-img material-icons" title="Descartar">clear</span>                                    
+                                    </td>
+                                </tr>
+                                <!-- SEGUNDO RENGLON -->
+                                <tr>
+                                    <td>
+                                    </td> 
+                                    <td>
+                                    </td>                                     
+                                    <td class="text-end" style="color:red;">
+                                        {{seMensajeO}}
+                                    </td>
+                                </tr>                                
+                            </table>
+
+                        </div>
+
+                        <!-- LISTA DE COLUMNAS EN LOS SELECCIONABLES-->
+                        <div class="tableFixHead table-responsive" style="height:auto;">
+                        <table >
+                            <thead>
+                                <th>T&iacute;tulo</th>
+                                <th>Campo</th>
+                                <th>Acciones</th>
+                            </thead>
+                            <tr v-for="registro of modelo.oSelector.ColumnasO" :key="registro.id">
+                                <td>{{registro.titulo}}</td>
+                                <td>{{registro.camponombre}}</td>
+                                <td>
+                                    <span @click="seQuitarO(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
+                                    <span @click="seEditarO(registro.id)" class="iconos inline-icon btn-img material-icons" title="Editar este registro">mode_edit</span>
+                                </td>
+                            </tr>
+
+                        </table>
+                        </div>
+
+                        <!-- DATOS PARA SELECCIONADOS -->
+                        <div ref="seColumnasD" class="btn-img text-end" @click="se_expandedD = !se_expandedD">
+                            <h3 class="float-end">Columnas para los registros seleccionables</h3>
+                            <span v-if="se_expandedD == false" class="material-icons">add_circle_outline</span>
+                            <span v-if="se_expandedD == true" class="material-icons">remove_circle_outline</span>
+                        </div>
+
+                        <div v-if="se_expandedD">     
+
+                            <table>
+                                <!-- PRIMER RENGLON -->
+                                <tr>
+                                    <!-- TITULO -->
+                                    <td class="w-30">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) T&iacute;tulo para la columna:</label>
+                                            <input ref="refseTituloColumnaD" type="text" class="form-control" v-model="seTituloColumnaD" placeholder="Título para la columna">
+                                        </div> 
+                                    </td>
+                                    <!-- CAMPO -->
+                                    <td class="w-60">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) Campo:</label>
+                                            <select ref="refseCampoColumnaD" class="form-select" v-model="seCampoColumnaD">
+                                                <option v-for="q of aCampos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                            </select>        
+                                        </div>                            
+                                    </td>
+                                    <!-- BOTONES -->
+                                    <td class="w-10">
+                                        <span @click="seAgregarD()" class="iconos inline-icon btn-img material-icons" title="Agregar a la lista">save_alt</span>
+                                        <span @click="seDescartarD()" class="iconos inline-icon btn-img material-icons" title="Descartar">clear</span>                                    
+                                    </td>
+                                </tr>
+                                <!-- SEGUNDO RENGLON -->
+                                <tr>
+                                    <td>
+                                    </td> 
+                                    <td>
+                                    </td>                                     
+                                    <td class="text-end" style="color:red;">
+                                        {{seMensajeD}}
+                                    </td>
+                                </tr>                                
+                            </table>
+
+                        </div>             
+
+                        <!-- LISTA DE COLUMNAS SELECCIONADOS -->
+                        <div class="tableFixHead table-responsive" style="height:auto;">
+                        <table >
+                            <thead>
+                                <th>T&iacute;tulo</th>
+                                <th>Campo</th>
+                                <th>Acciones</th>
+                            </thead>
+                            <tr v-for="registro of modelo.oSelector.ColumnasD" :key="registro.id">
+                                <td>{{registro.titulo}}</td>
+                                <td>{{registro.camponombre}}</td>
+                                <td>
+                                    <span @click="seQuitarD(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
+                                    <span @click="seEditarD(registro.id)" class="iconos inline-icon btn-img material-icons" title="Editar este registro">mode_edit</span>
+                                </td>
+                            </tr>
+
+                        </table>
+                        </div>                                   
 
                     </form>
 
@@ -1175,7 +1777,9 @@ export default {
             aQuerys: [],
             aTablas: [],
             aSelectables: [],
-            aCampos: [],
+            aCampos: [{id:'0', descripcion: 'Seleccionar ...'}],
+            aDocumentos: [],
+            aFiltros: [],
             // Tabla de gestion
             tgidQueryOld: '0',
             tg_id: funciones.generarUUID2(),
@@ -1184,8 +1788,8 @@ export default {
             tgCadenaSQL: '',
             tgTituloColumna: '',
             tgCampoColumna: '',
-            tgOrdenarColumna: '',
-            tgFiltrarColumna: '',
+            tgOrdenarColumna: false,
+            tgFiltrarColumna: false,
             // CRUD00
             cridQueryOld: '0',
             cr_id: funciones.generarUUID2(),
@@ -1225,9 +1829,38 @@ export default {
             cdAncho: 0,
             cdDecimales: 0,
             cdValorDefault: '',
-            cdEnabledInicial: false, 
+            cdEnabledInicial: true, 
             cdListaval:'0', 
             cdSelectable: '0', 
+            // Listado/Informe
+            liidQueryOld: '0',
+            li_id: funciones.generarUUID2(),
+            li_expanded: false,
+            liMensaje: '',
+            liCadenaSQL: '',
+            liTituloColumna: '',
+            liCampoColumna: '',
+            // Buscador
+            buidQueryOld: '0',
+            bu_id: funciones.generarUUID2(),
+            bu_expanded: false,
+            buMensaje: '',
+            buCadenaSQL: '',
+            buTituloColumna: '',
+            buCampoColumna: '0',
+            // Selector
+            seCadenaSQL: '',
+            seidQueryOld: '0',
+            se_idO: funciones.generarUUID2(),
+            se_idD: funciones.generarUUID2(),
+            se_expandedO: false,
+            se_expandedD: false,
+            seMensajeO: '',
+            seMensajeD: '',
+            seTituloColumnaO: '',
+            seCampoColumnaO: '0',             
+            seTituloColumnaD: '',
+            seCampoColumnaD: '0',            
             // Modelo de la pantalla            
             modelo: {
                 oDatosGenerales: {
@@ -1263,7 +1896,23 @@ export default {
                 },
                 oCapturaDatos: {
                     Campos: []
-                }                
+                },
+                oListado: {
+                    idQuery: '0',
+                    Columnas: [],
+                    idPlantilla: '0'                
+                },
+                oBuscador: {
+                    idQuery: '0',
+                    Columnas: [],
+                    devolverValor: '0'
+                },
+                oSelector: {
+                    idQuery: '0',
+                    ColumnasO: [],
+                    ColumnasD: [],
+                    maxSeleccion: 0
+                }     
             }
 
             
@@ -1282,7 +1931,9 @@ export default {
             this.tab = tabulacion;
             if(referencia != null) {
                 this.$nextTick(() => {
-                    this.$refs[referencia].focus();
+                    if(this.$refs[referencia]) {
+                        this.$refs[referencia].focus();
+                    }
                 })
             }
 
@@ -1367,7 +2018,10 @@ export default {
                             // TABLAS
                             if(result.data[x].tipo == 'T') {
 
-                                let tCampos = [];
+                                let tCampos = [{
+                                    id: '0',
+                                    descripcion: '"Selecciona un campo ...'                                    
+                                }];
 
                                 // Hacer el parse de los campos de la tabla
                                 for(let z = 0; z < tmp_modelo.oTabla.oCampos.length; z++) {
@@ -1394,20 +2048,43 @@ export default {
                             if(result.data[x].tipo == 'Q') {
 
                                 let tmp_CadenaSQL = tmp_modelo.oQuery.cadenaSQL;
-                                let qCampos = [];
+                                let qCampos = [{
+                                    id: '0',
+                                    descripcion: '"Selecciona un campo ...'
+                                }];
+                                let qFiltros = [];
+
+                                // Recuperar los filtros de la consulta
+                                for(let z = 0; z < tmp_modelo.oQuery.oFiltros.length; z++) {
+
+                                    let xtipo = this.cTipos[this.cTipos.findIndex(x => x.id === tmp_modelo.oQuery.oFiltros[z].tipo)].literal;
+
+                                    qFiltros.push({
+                                        etiqueta:     tmp_modelo.oQuery.oFiltros[z].etiqueta,
+                                        tipo:         tmp_modelo.oQuery.oFiltros[z].tipo,
+                                        tipo_lit:     xtipo,
+                                        obligatorio:  tmp_modelo.oQuery.oFiltros[z].obligatorio,
+                                        variable:     tmp_modelo.oQuery.oFiltros[z].campo,
+                                        valordefecto: tmp_modelo.oQuery.oFiltros[z].valor
+                                    })
+
+                                }
 
                                 // Hacer el parse de los campos de la consulta
                                 funciones.parseSQL(tmp_CadenaSQL)
                                 .then((result) => {
 
                                     if(result.success == 1 && result.status == 200) {
+                                        
+                                        let c = 1;
 
                                         for(let x=0; x < result.data.SELECT.length; x++) {
                                             if(result.data.SELECT[x].base_expr != '*') {
                                                 qCampos.push({
-                                                    id: x + 1,
+                                                    id: c,
                                                     descripcion: result.data.SELECT[x].base_expr
                                                 })
+                                                c++;
                                             }
                                         }
 
@@ -1419,8 +2096,8 @@ export default {
                                     id:           result.data[x].id,
                                     descripcion:  result.data[x].descripcion,
                                     cadenaSQL:    tmp_CadenaSQL,
-                                    filtros:      [],
-                                    campos:       qCampos                                       
+                                    campos:       qCampos,
+                                    filtros:      qFiltros                                       
                                 })
 
                             }
@@ -1439,6 +2116,9 @@ export default {
 
                         }
                         
+                        // Cargar la lista de plantillas de documentos
+                        this.leerPlantillasDoc()
+
                         // Modo edición, cargar datos
                         if(this.claveId != null) {
                             this.LeerDatos();
@@ -1453,7 +2133,47 @@ export default {
                 console.log(error);
             }
 
-        },        
+        },     
+        leerPlantillasDoc() {
+
+            try {
+
+                this.aDocumentos = [{
+                    id: '0',
+                    descripcion: 'Selecciona una plantilla para el documento ...',
+                    valores: []
+                }];
+
+                datos.leerLista("sys_documentos", "1=1", ["id", "titulo"], "titulo")
+                .then((result) => {
+
+                    if(global.DEBUG)
+                        console.log("leerPlantillasDoc", "datos devueltos datos.leerPlantillasDoc", result);
+
+                    if(result.success == 1 && result.status == 200) {
+
+                        // Cargar la lista de documentos
+                        for(let x = 0; x < result.data.length; x++) {
+
+                            this.aDocumentos.push({
+                                id:          result.data[x].id,
+                                descripcion: result.data[x].titulo
+                            })
+
+
+                        }
+
+                    }
+
+                }).finally(() => {
+                    this.hiddentelon = true;              
+                })
+
+            } catch(error) {
+                console.log(error);
+            }
+
+        },                
         LeerDatos() {
 
             try {
@@ -1478,7 +2198,15 @@ export default {
                         if(this.modelo.oCRUD01.tabla) {
                             this.cargaCamposTabla(this.modelo.oCRUD01.tabla);
                         } 
-
+                        if(this.modelo.oDisenio.tipo == 'I' && this.modelo.oListado.idQuery != '0') {
+                            this.cargaCamposConsulta(this.modelo.oListado.idQuery);
+                        }                        
+                        if(this.modelo.oDisenio.tipo == 'B' && this.modelo.oBuscador.idQuery != '0') {
+                            this.cargaCamposConsulta(this.modelo.oBuscador.idQuery);
+                        }  
+                        if(this.modelo.oDisenio.tipo == 'S' && this.modelo.oSelector.idQuery != '0') {
+                            this.cargaCamposConsulta(this.modelo.oSelector.idQuery);
+                        }                         
                     }
                 }).finally(() => {
                     this.hiddentelon = true;              
@@ -1520,27 +2248,239 @@ export default {
         Numerico(pval) {
             return pval.replace('.',',').replace(',','.');
         },                 
-        async Validaciones() {
+        LimpiaModelo() {
 
             this.errores = [];
             this.error_grave = 0;
             this.error_warning = 0;
 
             // Limpiar los objetos que no aplican
-            // switch(this.modelo.oDatosGenerales.tipo) {
-            // case 'L':
-            //     this.modelo.oTablaGestion.nombre = '';
-            //     this.modelo.oTabla.oCampos = [];
-            //     this.modelo.oQuery.cadenaSQL = '';
-            //     this.modelo.oQuery.oFiltros = [];
-            //     this.modelo.oSelectable.idQuery = '';
-            //     this.modelo.oSelectable.campo_codigo = '';
-            //     this.modelo.oSelectable.campo_valor = '';
-            //     this.modelo.oSelectable.campo_descripcion = '';     
-            //     break;   
-                
-            // }
+            switch(this.modelo.oDisenio.tipo) {
+            case 'G':   // Tabla de gestiones
 
+                // this.modelo.oTablaGestiones.idQuery      = 0,
+                // this.modelo.oTablaGestiones.Columnas     = [];
+                // this.modelo.oTablaGestiones.Row_agregar  = false,
+                // this.modelo.oTablaGestiones.Row_listar   = false,
+                // this.modelo.oTablaGestiones.Row_editar   = false,
+                // this.modelo.oTablaGestiones.Row_eliminar = false,
+
+                this.modelo.oCRUD00.idQuery  = '0';
+                this.modelo.oCRUD00.Columnas = [];
+                this.modelo.oCRUD00.Row_editar     = false;
+                this.modelo.oCRUD00.Row_eliminar   = false;
+                this.modelo.oCRUD00.btn_Listar     = false;
+                this.modelo.oCRUD00.idQueryListado = '0';
+
+                this.modelo.oCRUD01.tabla          = '0';
+                this.modelo.oCRUD01.Campos         = [];
+
+                this.modelo.oCapturaDatos.Campos = [];
+                
+                this.modelo.oListado.idQuery     = '0';
+                this.modelo.oListado.Columnas    = [];
+                this.modelo.oListado.idPlantilla = '0';                
+
+                this.modelo.oBuscador.idQuery = '0';
+                this.modelo.oBuscador.Columnas = [];
+                this.modelo.oBuscador.devolverValor = '0';
+
+                this.modelo.oSelector.idQuery = '0';
+                this.modelo.oSelector.ColumnasO = [];
+                this.modelo.oSelector.ColumnasD = [];
+                this.modelo.oSelector.maxSeleccion = 0;
+
+                break;   
+
+            case 'C':   // CRUD (create, read, update, delete)
+
+                this.modelo.oTablaGestiones.idQuery      = 0,
+                this.modelo.oTablaGestiones.Columnas     = [];
+                this.modelo.oTablaGestiones.Row_agregar  = false,
+                this.modelo.oTablaGestiones.Row_listar   = false,
+                this.modelo.oTablaGestiones.Row_editar   = false,
+                this.modelo.oTablaGestiones.Row_eliminar = false,
+
+                // this.modelo.oCRUD00.idQuery  = '0';
+                // this.modelo.oCRUD00.Columnas = [];
+                // this.modelo.oCRUD00.Row_editar     = false;
+                // this.modelo.oCRUD00.Row_eliminar   = false;
+                // this.modelo.oCRUD00.btn_Listar     = false;
+                // this.modelo.oCRUD00.idQueryListado = '0';
+
+                // this.modelo.oCRUD01.tabla          = '0';
+                // this.modelo.oCRUD01.Campos         = [];
+
+                this.modelo.oCapturaDatos.Campos = [];
+                
+                this.modelo.oListado.idQuery     = '0';
+                this.modelo.oListado.Columnas    = [];
+                this.modelo.oListado.idPlantilla = '0';                
+
+                this.modelo.oBuscador.idQuery = '0';
+                this.modelo.oBuscador.Columnas = [];
+                this.modelo.oBuscador.devolverValor = '0';
+
+                this.modelo.oSelector.idQuery = '0';
+                this.modelo.oSelector.ColumnasO = [];
+                this.modelo.oSelector.ColumnasD = [];
+                this.modelo.oSelector.maxSeleccion = 0;
+
+                break; 
+
+            case 'D':   // Capturar/Informar datos
+
+                this.modelo.oTablaGestiones.idQuery      = 0,
+                this.modelo.oTablaGestiones.Columnas     = [];
+                this.modelo.oTablaGestiones.Row_agregar  = false,
+                this.modelo.oTablaGestiones.Row_listar   = false,
+                this.modelo.oTablaGestiones.Row_editar   = false,
+                this.modelo.oTablaGestiones.Row_eliminar = false,
+
+                this.modelo.oCRUD00.idQuery  = '0';
+                this.modelo.oCRUD00.Columnas = [];
+                this.modelo.oCRUD00.Row_editar     = false;
+                this.modelo.oCRUD00.Row_eliminar   = false;
+                this.modelo.oCRUD00.btn_Listar     = false;
+                this.modelo.oCRUD00.idQueryListado = '0';
+
+                this.modelo.oCRUD01.tabla          = '0';
+                this.modelo.oCRUD01.Campos         = [];
+
+                // this.modelo.oCapturaDatos.Campos = [];
+                
+                this.modelo.oListado.idQuery     = '0';
+                this.modelo.oListado.Columnas    = [];
+                this.modelo.oListado.idPlantilla = '0';                
+
+                this.modelo.oBuscador.idQuery = '0';
+                this.modelo.oBuscador.Columnas = [];
+                this.modelo.oBuscador.devolverValor = '0';
+
+                this.modelo.oSelector.idQuery = '0';
+                this.modelo.oSelector.ColumnasO = [];
+                this.modelo.oSelector.ColumnasD = [];
+                this.modelo.oSelector.maxSeleccion = 0;
+
+                break;    
+                
+            case 'I':   // Listado o Informe
+
+                this.modelo.oTablaGestiones.idQuery      = 0,
+                this.modelo.oTablaGestiones.Columnas     = [];
+                this.modelo.oTablaGestiones.Row_agregar  = false,
+                this.modelo.oTablaGestiones.Row_listar   = false,
+                this.modelo.oTablaGestiones.Row_editar   = false,
+                this.modelo.oTablaGestiones.Row_eliminar = false,
+
+                this.modelo.oCRUD00.idQuery  = '0';
+                this.modelo.oCRUD00.Columnas = [];
+                this.modelo.oCRUD00.Row_editar     = false;
+                this.modelo.oCRUD00.Row_eliminar   = false;
+                this.modelo.oCRUD00.btn_Listar     = false;
+                this.modelo.oCRUD00.idQueryListado = '0';
+
+                this.modelo.oCRUD01.tabla          = '0';
+                this.modelo.oCRUD01.Campos         = [];
+
+                this.modelo.oCapturaDatos.Campos = [];
+                
+                // this.modelo.oListado.idQuery     = '0';
+                // this.modelo.oListado.Columnas    = [];
+                // this.modelo.oListado.idPlantilla = '0';                
+
+                this.modelo.oBuscador.idQuery = '0';
+                this.modelo.oBuscador.Columnas = [];
+                this.modelo.oBuscador.devolverValor = '0';
+
+                this.modelo.oSelector.idQuery = '0';
+                this.modelo.oSelector.ColumnasO = [];
+                this.modelo.oSelector.ColumnasD = [];
+                this.modelo.oSelector.maxSeleccion = 0;
+
+                break;      
+                
+            case 'B':   // Buscador
+
+                this.modelo.oTablaGestiones.idQuery      = 0,
+                this.modelo.oTablaGestiones.Columnas     = [];
+                this.modelo.oTablaGestiones.Row_agregar  = false,
+                this.modelo.oTablaGestiones.Row_listar   = false,
+                this.modelo.oTablaGestiones.Row_editar   = false,
+                this.modelo.oTablaGestiones.Row_eliminar = false,
+
+                this.modelo.oCRUD00.idQuery  = '0';
+                this.modelo.oCRUD00.Columnas = [];
+                this.modelo.oCRUD00.Row_editar     = false;
+                this.modelo.oCRUD00.Row_eliminar   = false;
+                this.modelo.oCRUD00.btn_Listar     = false;
+                this.modelo.oCRUD00.idQueryListado = '0';
+
+                this.modelo.oCRUD01.tabla          = '0';
+                this.modelo.oCRUD01.Campos         = [];
+
+                this.modelo.oCapturaDatos.Campos = [];
+                
+                this.modelo.oListado.idQuery     = '0';
+                this.modelo.oListado.Columnas    = [];
+                this.modelo.oListado.idPlantilla = '0';                
+
+                // this.modelo.oBuscador.idQuery = '0';
+                // this.modelo.oBuscador.Columnas = [];
+                // this.modelo.oBuscador.devolverValor = '0';
+
+                this.modelo.oSelector.idQuery = '0';
+                this.modelo.oSelector.ColumnasO = [];
+                this.modelo.oSelector.ColumnasD = [];
+                this.modelo.oSelector.maxSeleccion = 0;
+
+                break;        
+                
+            case 'S':   // Selector
+
+                this.modelo.oTablaGestiones.idQuery      = 0,
+                this.modelo.oTablaGestiones.Columnas     = [];
+                this.modelo.oTablaGestiones.Row_agregar  = false,
+                this.modelo.oTablaGestiones.Row_listar   = false,
+                this.modelo.oTablaGestiones.Row_editar   = false,
+                this.modelo.oTablaGestiones.Row_eliminar = false,
+
+                this.modelo.oCRUD00.idQuery  = '0';
+                this.modelo.oCRUD00.Columnas = [];
+                this.modelo.oCRUD00.Row_editar     = false;
+                this.modelo.oCRUD00.Row_eliminar   = false;
+                this.modelo.oCRUD00.btn_Listar     = false;
+                this.modelo.oCRUD00.idQueryListado = '0';
+
+                this.modelo.oCRUD01.tabla          = '0';
+                this.modelo.oCRUD01.Campos         = [];
+
+                this.modelo.oCapturaDatos.Campos = [];
+                
+                this.modelo.oListado.idQuery     = '0';
+                this.modelo.oListado.Columnas    = [];
+                this.modelo.oListado.idPlantilla = '0';                
+
+                this.modelo.oBuscador.idQuery = '0';
+                this.modelo.oBuscador.Columnas = [];
+                this.modelo.oBuscador.devolverValor = '0';
+
+                // this.modelo.oSelector.idQuery = '0';
+                // this.modelo.oSelector.ColumnasO = [];
+                // this.modelo.oSelector.ColumnasD = [];
+                // this.modelo.oSelector.maxSeleccion = 0;
+
+                break;                 
+            }
+
+        },
+        async Validaciones() {
+
+            this.errores = [];
+            this.error_grave = 0;
+            this.error_warning = 0;
+
+            this.LimpiaModelo();
 
             // Datos generales
             if(this.modelo.oDatosGenerales.titulo == '') {
@@ -1585,13 +2525,211 @@ export default {
                 })
                 this.error_grave++;
             }
-            // Tabla de gestiones            
-              
-            // CRUD
+
+            switch(this.modelo.oDisenio.tipo) {
+            case 'G':               
+                // Tabla de gestiones            
+                if(this.modelo.oTablaGestiones.idQuery == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Tabla de gestiones es obligatorio indicar la consulta",
+                        ref: 'tgQuery',
+                        tab: 3
+                    })
+                    this.error_grave++;
+                }
+            
+                if(this.modelo.oTablaGestiones.Columnas.length == 0) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Tabla de gestiones es obligatorio indicar las columnas",
+                        ref: 'tgQuery',
+                        tab: 3
+                    })
+                    this.error_grave++;
+                }    
+
+                break;
+
+            case 'C':
+                // CRUD
+                if(this.modelo.oCRUD00.idQuery == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla CRUD (Paso 1) es obligatorio indicar la consulta",
+                        ref: 'crQuery',
+                        tab: 4
+                    })
+                    this.error_grave++;
+                }
+                if(this.modelo.oCRUD00.Columnas.length == 0) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla CRUD (Paso 1) es obligatorio indicar las columnas",
+                        ref: 'crQuery',
+                        tab: 4
+                    })
+                    this.error_grave++;
+                }    
+                if(this.modelo.oCRUD00.btn_Listar == true && this.modelo.oCRUD00.idQueryListado == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "CRUD (Paso1) Si has indicado que deseas incluir un listado, debes indicar la consulta a utilizar",
+                        ref: 'crLQuery',
+                        tab: 4
+                    })
+                    this.error_grave++;
+                }    
+                if(this.modelo.oCRUD01.tabla == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla CRUD (Paso 2) es obligatorio indicar la tabla",
+                        ref: 'cr1Tabla',
+                        tab: 4
+                    })
+                    this.error_grave++;
+                }    
+                if(this.modelo.oCRUD01.Campos.length == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla CRUD (Paso 2) es obligatorio indicar los campos a editar",
+                        ref: 'cr1Tabla',
+                        tab: 4
+                    })
+                    this.error_grave++;
+                } 
+
+                break;
+                
+            case 'D': 
+                // Carga de datos
+                if(this.modelo.oCapturaDatos.Campos.length == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Informar datos es obligatorio indicar los campos",
+                        ref: 'cdCampos',
+                        tab: 5
+                    })
+                    this.error_grave++;
+                } 
 
 
+                break;
 
+            case 'I':                
+                // Listado
+                if(this.modelo.oListado.idQuery == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Listado/Informe es obligatorio indicar la consulta",
+                        ref: 'liQuery',
+                        tab: 6
+                    })
+                    this.error_grave++;
+                }
+                if(this.modelo.oListado.Columnas.length == 0) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Listado/Informe es obligatorio indicar las columnas del informe",
+                        ref: 'liColumnas',
+                        tab: 6
+                    })
+                    this.error_grave++;
+                } 
+                if(this.modelo.oListado.idPlantilla == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Listado/Informe es obligatorio indicar la plantilla para el documento",
+                        ref: 'liPlantilla',
+                        tab: 6
+                    })
+                    this.error_grave++;
+                }
 
+                break;
+
+            case 'B':
+                // Buscador
+                if(this.modelo.oBuscador.idQuery == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Buscador es obligatorio indicar la consulta",
+                        ref: 'buQuery',
+                        tab: 7
+                    })
+                    this.error_grave++;
+                }
+                if(this.modelo.oBuscador.Columnas.length == 0) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Buscador es obligatorio indicar las columnas a incluir en el resultado",
+                        ref: 'buColumnas',
+                        tab: 7
+                    })
+                    this.error_grave++;
+                } 
+                if(this.modelo.oBuscador.devolverValor == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Buscador es obligatorio indicar el campo que devolverá el valor seleccionado",
+                        ref: 'refbuDevolverValor',
+                        tab: 7
+                    })
+                    this.error_grave++;
+                }            
+            
+                break;
+            
+            case 'S': 
+                // Selector
+                if(this.modelo.oSelector.idQuery == '0') {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Selector es obligatorio indicar la consulta",
+                        ref: 'seQuery',
+                        tab: 8
+                    })
+                    this.error_grave++;
+                }
+                if(this.modelo.oSelector.ColumnasO.length == 0) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Selector es obligatorio indicar las columnas a mostrar en la lista origen",
+                        ref: 'seColumnasO',
+                        tab: 8
+                    })
+                    this.error_grave++;
+                }                 
+                if(this.modelo.oSelector.ColumnasD.length == 0) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para el tipo de pantalla Selector es obligatorio indicar las columnas a mostrar en la lista destino",
+                        ref: 'seColumnasD',
+                        tab: 8
+                    })
+                    this.error_grave++;
+                } 
+                
+                break;
+
+            }
             // *************************************************************************************** //                        
             if(this.error_grave == 0 && this.error_warning == 0) {
                 this.E_expanded = false;
@@ -1749,6 +2887,15 @@ export default {
                         if(this.modelo.oDisenio.tipo == 'G') {
                             this.tgCadenaSQL = tmp_modelo.oQuery.cadenaSQL;
                         }
+                        if(this.modelo.oDisenio.tipo == 'I') {
+                            this.liCadenaSQL = tmp_modelo.oQuery.cadenaSQL;
+                        }  
+                        if(this.modelo.oDisenio.tipo == 'B') {
+                            this.buCadenaSQL = tmp_modelo.oQuery.cadenaSQL;
+                        }   
+                        if(this.modelo.oDisenio.tipo == 'S') {
+                            this.seCadenaSQL = tmp_modelo.oQuery.cadenaSQL;
+                        }                                                                        
                         if(this.modelo.oDisenio.tipo == 'C' && pCual != 'L') {
                             this.crCadenaSQL = tmp_modelo.oQuery.cadenaSQL;
                         }
@@ -1781,33 +2928,25 @@ export default {
 
             try {
 
-                datos.leerLista('sys_modelo_datos', "id='" + pId + "'", ['objeto'], '')
+                let xQ = this.aQuerys.findIndex(x => x.id === pId);
+                let tmp_CadenaSQL = this.aQuerys[xQ].cadenaSQL;
+
+                this.aFiltros = this.aQuerys[xQ].filtros;
+
+                funciones.parseSQL(tmp_CadenaSQL)
                 .then((result) => {
 
                     if(result.success == 1 && result.status == 200) {
-
-                        // Recuperar la cadena de la consulta
-                        let tmp_modelo = JSON.parse(result.data[0].objeto.split('&quot;').join('"'));
-                        let tmp_CadenaSQL = tmp_modelo.oQuery.cadenaSQL;
-
-                        // Hacer el parse de los campos de la consulta
-                        funciones.parseSQL(tmp_CadenaSQL)
-                        .then((result) => {
-
-                            if(result.success == 1 && result.status == 200) {
-
-                                for(let x=0; x < result.data.SELECT.length; x++) {
-                                    if(result.data.SELECT[x].base_expr != '*') {
-                                        this.aCampos.push({
-                                            id: x + 1,
-                                            descripcion: result.data.SELECT[x].base_expr
-                                        })
-                                    }
-                                }
-
+                        let c = 1;
+                        for(let x=0; x < result.data.SELECT.length; x++) {
+                            if(result.data.SELECT[x].base_expr != '*') {
+                                this.aCampos.push({
+                                    id: c,
+                                    descripcion: result.data.SELECT[x].base_expr
+                                })
+                                c++;
                             }
-
-                        })
+                        }
 
                     }
 
@@ -1869,7 +3008,7 @@ export default {
             this.tgFiltrarColumna = false,
             
             this.tgMensaje = "";
-            this.$refs.refTituloColumna.focus();
+            this.$refs.reftgTituloColumna.focus();
 
         },
         tgAgregar() {
@@ -2301,9 +3440,329 @@ export default {
         },        
         asignarTelefono(flagCodigo) {
             this.cdValorDefault = flagCodigo;
-        }
+        },
+        // Listados/Informes
+        liDescartar() {
+            this.li_id = funciones.generarUUID2();
+            this.liTituloColumna = '';
+            this.liCampoColumna = '0';
+            
+            this.liMensaje = "";
+            this.$refs.refliTituloColumna.focus();
+        },
+        liAgregar() {
 
-        
+            let editando = this.modelo.oListado.Columnas.findIndex(x => x.id === this.li_id);
+
+            if(this.liTituloColumna == '' || this.liCampoColumna == '') {
+                this.liMensaje = "Faltan datos";
+                this.$refs.refliTituloColumna.focus();
+                return;
+            }
+
+            if(editando == -1) {
+                this.modelo.oListado.Columnas.push({
+                    id: this.li_id,
+                    titulo: this.liTituloColumna,
+                    campo: this.liCampoColumna,
+
+                })
+            } else {
+                this.modelo.oListado.Columnas[editando].titulo = this.liTituloColumna;
+                this.modelo.oListado.Columnas[editando].campo = this.liCampoColumna;
+            }
+
+            this.liDescartar();
+
+        },
+        liQuitar(pId) {
+
+            this.modelo.oListado.Columnas = this.modelo.oListado.Columnas.filter((tx) => {
+                return tx.id != pId; 
+            }) 
+
+        },
+        liEditar(pId) {
+
+            let idx = this.modelo.oListado.Columnas.findIndex(x => x.id === pId);
+
+            this.li_expanded = true;
+
+            this.li_id = pId;
+            this.liTituloColumna = this.modelo.oListado.Columnas[idx].titulo;
+            this.liCampoColumna = this.modelo.oListado.Columnas[idx].campo;
+
+        },
+        liCambioQuery() {
+
+            this.liMensaje = '';
+
+            if(this.modelo.oListado.Columnas.length > 0) {
+                funciones.popAlert('warning', 'Se perderá la definición de las columnas!', true, true, 3000, 'Continuar?')
+                .then((result) => {
+                    if(result == true) {
+                        this.modelo.oListado.Columnas = [];
+                        this.liCadenaSQL='';
+                        this.liidQueryOld = this.modelo.oListado.idQuery;
+                        this.cargaCamposConsulta(this.modelo.oListado.idQuery);
+                        return true;
+                    } else {
+                        this.modelo.oListado.idQuery = this.liidQueryOld;
+                        return false;
+                    }
+                });
+            } else {
+                this.modelo.oListado.Columnas = [];
+                this.liCadenaSQL='';
+                this.liidQueryOld = this.modelo.oListado.idQuery;
+                this.cargaCamposConsulta(this.modelo.oListado.idQuery);
+                return true;
+            }
+
+        },           
+        // Buscador
+        buDescartar() {
+            this.bu_id = funciones.generarUUID2();
+            this.buTituloColumna = '';
+            this.buCampoColumna = '0';
+            
+            this.buMensaje = "";
+            this.$refs.refbuTituloColumna.focus();
+        },
+        buAgregar() {
+
+            let editando = this.modelo.oBuscador.Columnas.findIndex(x => x.id === this.bu_id);
+
+            if(this.buTituloColumna == '' || this.buCampoColumna == '') {
+                this.buMensaje = "Faltan datos";
+                this.$refs.refbuTituloColumna.focus();
+                return;
+            }
+
+            if(editando == -1) {
+                this.modelo.oBuscador.Columnas.push({
+                    id: this.bu_id,
+                    titulo: this.buTituloColumna,
+                    campo: this.buCampoColumna,
+
+                })
+            } else {
+                this.modelo.oBuscador.Columnas[editando].titulo = this.buTituloColumna;
+                this.modelo.oBuscador.Columnas[editando].campo = this.buCampoColumna;
+            }
+
+            this.buDescartar();
+
+        },
+        buQuitar(pId) {
+
+            this.modelo.oBuscador.Columnas = this.modelo.oBuscador.Columnas.filter((tx) => {
+                return tx.id != pId; 
+            }) 
+
+        },
+        buEditar(pId) {
+
+            let idx = this.modelo.oBuscador.Columnas.findIndex(x => x.id === pId);
+
+            this.bu_expanded = true;
+
+            this.bu_id = pId;
+            this.buTituloColumna = this.modelo.oBuscador.Columnas[idx].titulo;
+            this.buCampoColumna = this.modelo.oBuscador.Columnas[idx].campo;
+
+        },
+        buCambioQuery() {
+
+            this.buMensaje = '';
+
+            if(this.modelo.oBuscador.Columnas.length > 0) {
+                funciones.popAlert('warning', 'Se perderá la definición de las columnas!', true, true, 3000, 'Continuar?')
+                .then((result) => {
+                    if(result == true) {
+                        this.modelo.oBuscador.Columnas = [];
+                        this.buCadenaSQL='';
+                        this.buidQueryOld = this.modelo.oBuscador.idQuery;
+                        this.cargaCamposConsulta(this.modelo.oBuscador.idQuery);                
+                        this.modelo.oBuscador.devolverValor = '0';
+
+                        this.buTituloColumna = '';
+                        this.buCampoColumna = '0';
+
+                        return true;
+                    } else {
+                        this.modelo.oBuscador.idQuery = this.buidQueryOld;
+                        return false;
+                    }
+                });
+            } else {
+                this.modelo.oBuscador.Columnas = [];
+                this.buCadenaSQL='';
+                this.buidQueryOld = this.modelo.oBuscador.idQuery;
+                this.cargaCamposConsulta(this.modelo.oBuscador.idQuery);
+                this.modelo.oBuscador.devolverValor = '0';
+
+                this.buTituloColumna = '';
+                this.buCampoColumna = '0';
+
+                return true;
+            }
+
+        },  
+        // Selector
+        seDescartarO() {
+            this.se_idO = funciones.generarUUID2();
+            this.seTituloColumnaO = '';
+            this.seCampoColumnaO = '0';
+            
+            this.seMensajeO = "";
+            this.$refs.refseTituloColumnaO.focus();
+        },
+        seAgregarO() {
+
+            let editando = this.modelo.oSelector.ColumnasO.findIndex(x => x.id === this.se_idO);
+
+            if(this.seTituloColumnaO == '' || this.seCampoColumnaO == '') {
+                this.seMensajeO = "Faltan datos";
+                this.$refs.refseTituloColumnaO.focus();
+                return;
+            }
+
+            let xcampo = this.aCampos[this.seCampoColumnaO].descripcion;
+
+            if(editando == -1) {
+                this.modelo.oSelector.ColumnasO.push({
+                    id: this.se_idO,
+                    titulo: this.seTituloColumnaO,
+                    campo: this.seCampoColumnaO,
+                    camponombre: xcampo
+
+                })
+            } else {
+                this.modelo.oSelector.ColumnasO[editando].titulo = this.seTituloColumnaO;
+                this.modelo.oSelector.ColumnasO[editando].campo = this.seCampoColumnaO;
+                this.modelo.oSelector.ColumnasO[editando].camponombre = xcampo;
+            }
+
+            this.seDescartarO();
+
+        },
+        seQuitarO(pId) {
+
+            this.modelo.oSelector.ColumnasO = this.modelo.oSelector.ColumnasO.filter((tx) => {
+                return tx.id != pId; 
+            }) 
+
+        },
+        seEditarO(pId) {
+
+            let idx = this.modelo.oSelector.ColumnasO.findIndex(x => x.id === pId);
+
+            this.se_expandedO = true;
+
+            this.se_idO = pId;
+            this.seTituloColumnaO = this.modelo.oSelector.ColumnasO[idx].titulo;
+            this.seCampoColumnaO = this.modelo.oSelector.ColumnasO[idx].campo;
+
+        },
+        seDescartarD() {
+            this.se_idD = funciones.generarUUID2();
+            this.seTituloColumnaD = '';
+            this.seCampoColumnaD = '0';
+            
+            this.seMensajeD = "";
+            this.$refs.refseTituloColumnaD.focus();
+        },
+        seAgregarD() {
+
+            let editando = this.modelo.oSelector.ColumnasD.findIndex(x => x.id === this.se_idD);
+
+            if(this.seTituloColumnaD == '' || this.seCampoColumnaD == '') {
+                this.seMensajeD = "Faltan datos";
+                this.$refs.refseTituloColumnaD.focus();
+                return;
+            }
+
+            let xcampo = this.aCampos[this.seCampoColumnaD].descripcion;
+
+            if(editando == -1) {
+                this.modelo.oSelector.ColumnasD.push({
+                    id: this.se_idD,
+                    titulo: this.seTituloColumnaD,
+                    campo: this.seCampoColumnaD,
+                    camponombre: xcampo
+
+                })
+            } else {
+                this.modelo.oSelector.ColumnasD[editando].titulo = this.seTituloColumnaD;
+                this.modelo.oSelector.ColumnasD[editando].campo = this.seCampoColumnaD;
+                this.modelo.oSelector.ColumnasD[editando].camponombre = xcampo;
+            }
+
+            this.seDescartarD();
+
+        },
+        seQuitarD(pId) {
+
+            this.modelo.oSelector.ColumnasD = this.modelo.oSelector.ColumnasD.filter((tx) => {
+                return tx.id != pId; 
+            }) 
+
+        },
+        seEditarD(pId) {
+
+            let idx = this.modelo.oSelector.ColumnasD.findIndex(x => x.id === pId);
+
+            this.se_expandedD = true;
+
+            this.se_idD = pId;
+            this.seTituloColumnaD = this.modelo.oSelector.ColumnasD[idx].titulo;
+            this.seCampoColumnaD = this.modelo.oSelector.ColumnasD[idx].campo;
+
+        },        
+        seCambioQuery() {
+
+            this.seMensajeO = '';
+            this.seMensajeD = '';
+
+            if(this.modelo.oSelector.ColumnasO.length > 0) {
+                funciones.popAlert('warning', 'Se perderá la definición de las columnas!', true, true, 3000, 'Continuar?')
+                .then((result) => {
+                    if(result == true) {
+                        this.modelo.oSelector.ColumnasO = [];
+                        this.modelo.oSelector.ColumnasD = [];
+                        this.seCadenaSQL = '';
+                        this.seidQueryOld = this.modelo.oSelector.idQuery;
+                        this.cargaCamposConsulta(this.modelo.oSelector.idQuery);                
+
+                        this.seTituloColumnaO = '';
+                        this.seCampoColumnaO = '0';                        
+                        this.seTituloColumnaD = '';
+                        this.seCampoColumnaD = '0';
+
+                        return true;
+                    } else {
+                        this.modelo.oSelector.idQuery = this.seidQueryOld;
+                        return false;
+                    }
+                });
+            } else {
+                this.modelo.oSelector.ColumnasO = [];
+                this.modelo.oSelector.ColumnasD = [];
+                this.seCadenaSQL = '';
+                this.seidQueryOld = this.modelo.oSelector.idQuery;
+                this.cargaCamposConsulta(this.modelo.oSelector.idQuery);
+
+                this.seTituloColumnaO = '';
+                this.seCampoColumnaO = '0';                        
+                this.seTituloColumnaD = '';
+                this.seCampoColumnaD = '0';
+
+                return true;
+            }
+
+        },  
+
     },
     mounted(){
         this.claveId = this.$route.params['p_claveId'];
