@@ -29,7 +29,7 @@
         <li class="nav-item"><a class="nav-link" :class="{active : tab == 6 && modelo.oDisenio.tipo == 'I', disabled : modelo.oDisenio.tipo != 'I'}" @click="tab=6" data-bs-toggle="tab" href="#datos-listado">Listado / Informe</a></li>
         <li class="nav-item"><a class="nav-link" :class="{active : tab == 7 && modelo.oDisenio.tipo == 'B', disabled : modelo.oDisenio.tipo != 'B'}" @click="tab=7" data-bs-toggle="tab" href="#datos-buscar">Buscador</a></li>
         <li class="nav-item"><a class="nav-link" :class="{active : tab == 8 && modelo.oDisenio.tipo == 'S', disabled : modelo.oDisenio.tipo != 'S'}" @click="tab=8" data-bs-toggle="tab" href="#datos-selector">Selector</a></li>
-        <li class="nav-item"><a class="nav-link" :class="{active : tab == 9}" @click="tab=9" data-bs-toggle="tab" href="#datos-JSON">JSON</a></li>
+        <li class="nav-item"><a class="nav-link" :class="{active : tab == 9}" @click="tab=10" data-bs-toggle="tab" href="#datos-JSON">JSON</a></li>
 
         <li class="nav-item"><a class="nav-link" :class="{active : tab == 10}" @click="Grabar()">Grabar</a></li>
     </ul>
@@ -404,500 +404,211 @@
             <div class="row justify-content-center">
             <div class="card" style="width: 90%;">
 
+                <div class="card-header">
+                    <h3>CRUD 1 (Crear o Editar un registro)</h3>
+                </div>
+
                 <div class="card-body">
 
-                    <div class="accordion" id="CRUD">
-                        <!-- /////////////////////////////////////////////////////////////////////////////////// -->
-                        <!-- PRIMER PASO -->
-                        <!-- /////////////////////////////////////////////////////////////////////////////////// -->  
-                        <div class="accordion-item">
+                    <form action @submit.prevent="cero">
 
-                            <h3 class="accordion-header" id="CRUD00-header" ref="CRUD00accordion1">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#CRUD00" aria-expanded="true" aria-controls="CRUD00" style="color: var(--true-button-color);">
-                                Paso 1 (Lista de registros)
-                                </button>
-                            </h3>  
+                        <!-- TABLA -->
+                        <table>
+                            <tr>
+                                <td class="text-start" style="width:30%;">
+                                    <label>(*) Tabla principal:</label>
+                                </td>
+                                <td class="text-start" style="width:60%;">
+                                    <select ref="cr1Tabla" class="w-100 form-select" v-model="modelo.oCRUD01.tabla" @change="cargaCamposTabla(modelo.oCRUD01.tabla)"> 
+                                        <option v-for="q of aTablas" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                    </select>
+                                </td>
+                                <td class="text-start"  style="width:10%;">
+                                </td>
+                            </tr>
 
-                            <div id="CRUD00" class="accordion-collapse collapse show" aria-labelledby="CRUD00-header"  data-bs-parent="#CRUD">
+                        </table>
 
-                                <div class="accordion-body">
+                        <div class="btn-img float-end" @click="cr1_expanded = !cr1_expanded">
+                            <h3 class="float-end">Campos</h3>
+                            <span v-if="cr1_expanded == false" class="material-icons">add_circle_outline</span>
+                            <span v-if="cr1_expanded == true" class="material-icons">remove_circle_outline</span>
+                        </div>
 
-                                    <form action @submit.prevent="cero">
+                        <div v-if="cr1_expanded">     
 
-                                        <table>
-                                            <!-- QUERY PASO 1 del CRUD-->
-                                            <tr>
-                                                <td class="text-start" style="width:30%;">
-                                                    <label>(*) Consulta de datos:</label>
-                                                </td>
-                                                <td class="text-start" style="width:60%;">
-                                                    <select ref="crQuery" class="form-select" v-model="modelo.oCRUD00.idQuery" @change="crCambioQuery()"> 
-                                                        <option v-for="q of aQuerys" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.id}} {{q.descripcion}}</option>
+                            <table>
+                                <!-- PRIMER RENGLON -->
+                                <tr>
+                                    <!-- CAMPO -->
+                                    <td style="width:30%;">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) Campo:</label>
+                                            <select ref="refcr1Campo" class="form-select" v-model="cr1Campo" @change="cr1CambiaCampo()">
+                                                <option v-for="q of cr1Campos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                            </select>        
+                                        </div>                            
+                                    </td>   
+                                    <!-- ETIQUETA -->
+                                    <td style="width:40%;">
+                                        <div class="text-start input-group addon">
+                                            <label>(*) Etiqueta en pantalla:</label>
+                                            <input ref="refcr1Etiqueta" type="text" class="form-control" v-model="cr1Etiqueta" placeholder="Etiqueta en pantalla">
+                                        </div> 
+                                    </td> 
+                                    <!-- ENABLED INICIAL -->
+                                    <td style="width:20%;">
+                                        <div class="input-group addon">
+                                            <label for="refcr1EnabledInicial">Habilitado al inicio:</label>
+                                            <label class="content-input">
+                                                <input ref="refcr1EnabledInicial" id="refcr1EnabledInicial" type="checkbox" v-model="cr1EnabledInicial">
+                                                <i></i>
+                                            </label>                                              
+                                        </div>
+                                    </td>                                     
+                                    <!-- BOTONES -->
+                                    <td style="width:10%;">
+                                        <span @click="cr1Agregar()" class="iconos inline-icon btn-img material-icons" title="Agregar a la lista">save_alt</span>
+                                        <span @click="cr1Descartar()" class="iconos inline-icon btn-img material-icons" title="Descartar">clear</span>                                    
+                                    </td>
+                                </tr>
+                                <!-- SEGUNDO RENGLON -->
+                                <tr>
+                                    <!-- FORMATO -->
+                                    <td>
+                                        <div class="text-start input-group addon">
+                                            <label>(*) Formato:</label>
+                                            <select ref="refcr1Formato" class="form-select" v-model="cr1Formato" @change="cr1ValorDefault = ''">
+                                                <option v-for="q of cTipos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.literal}}</option>
+                                            </select>        
+                                        </div> 
+                                    </td>  
+                                    <!-- VALOR POR DEFECTO SEGUN EL TIPO -->
+                                    <td colspan="2">
+                                        <div v-if="cr1Formato=='C'" class="input-group addon">
+                                            <label for="nuevo_cr1Default">Valor inicial:</label>
+                                            <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="text" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
+                                        </div>
+
+                                        <div v-if="cr1Formato=='D'" class="input-group addon">
+                                            <label for="nuevo_cr1Default">Valor inicial:</label>
+                                            <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="date" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
+                                        </div> 
+                                        <div v-if="cr1Formato=='T'" class="input-group addon">
+                                            <label for="nuevo_cr1Default">Valor inicial:</label>
+                                            <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="datetime-local" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
+                                        </div>    
+                                        <div v-if="cr1Formato=='H'" class="input-group addon">
+                                            <label for="nuevo_cr1Default">Valor inicial:</label>
+                                            <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="time" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
+                                        </div>       
+                                        <div v-if="cr1Formato=='A'" class="input-group addon mb-3">
+                                            <label for="nuevo_cr1Default">Valor inicial:</label>
+                                            <textarea ref="nuevo_cr1Default" id="nuevo_cr1Default" class="form-control" cols="50" :maxlength="tancho" style="width:100%;" v-model="cr1ValorDefault" placeholder="Valor inicial"></textarea>
+                                        </div>
+                                        <div v-if="cr1Formato=='K'">
+                                            <div class="input-group addon">
+                                                <label for="nuevo_cr1Default">Valor inicial:</label>
+                                                <label class="content-input">
+                                                    <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="checkbox" v-model="cr1ValorDefault">
+                                                    <i></i>
+                                                </label>                                              
+                                            </div>
+                                        </div>        
+                                        <div v-if="cr1Formato=='N' || cr1Formato=='M'" class="input-group addon">
+                                            <label for="nuevo_cr1Default">Valor inicial:</label>
+                                            <input 
+                                                ref="nuevo_cr1Default" 
+                                                id="nuevo_cr1Default" 
+                                                type="text" style="width:60%;" 
+                                                class="form-control" 
+                                                v-model="cr1ValorDefault" 
+                                                @blur="cr1ValidarDefault($event)"
+                                                @keydown="noPuntos($event, false)"
+                                                :title="`${'Valor máximo permitido: ' + cr1ValorMaximoDefault}`"> 
+                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="z-index:9999" v-if="cr1DefError">Máx: {{cr1ValorMaximoDefault}}</span>
+                                        </div>
+                                        <!-- LISTA DE VALORES -->
+                                        <div v-if="cr1Formato=='L'">
+                                            <div class="text-start input-group addon">
+                                                <div style="width:20%;">
+                                                    <label>(*) Lista de valores:</label>
+                                                </div>
+                                                <div style="width:80%;">
+                                                    <select ref="refcr1Listaval" class="form-select w-90" v-model="cr1Listaval" @change="cr1CambiaListaVal()">
+                                                        <option v-for="q of aListasVal" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
                                                     </select>
-                                                </td>
-                                                <td class="text-start" style="width:10%;">
-                                                    <span v-if="modelo.oCRUD00.idQuery == '0'" class="iconos inline-icon btn-img material-icons" title="Selecciona una consulta">visibility_off</span>
-                                                    <span @click="CargaConsulta(modelo.oCRUD00.idQuery)" v-if="modelo.oCRUD00.idQuery != '0'" class="iconos inline-icon btn-img material-icons" title="Ver consulta">visibility</span>
-                                                </td>
-                                            </tr>
-                                            <tr v-if="modelo.oCRUD00.idQuery != '0' && crCadenaSQL != ''">
-                                                <td colspan="3"> 
-                                                    <div  class="w-100 input-group addon pb-4">
-                                                        <div class="container-fluid">
-                                                            <span @click="crCadenaSQL = ''" class="iconos inline-icon btn-img material-icons float-end" title="Cerrar">close</span>
-                                                        </div>
-                                                        <textarea ref="crConsultaSQL" id="crConsultaSQL" class="form-control" disabled rows="5" :maxlength="5000" style="height: 100px;width: 100%;font-family:Courier" v-model="crCadenaSQL" placeholder="Consulta SQL completa"></textarea>
-                                                    </div>
-                                                </td> 
-                                            </tr>
-                                            <tr v-if="modelo.oCRUD00.idQuery != '0' && crCadenaSQL != ''">
-                                                <td colspan="3">
-                                                    <!-- LISTA DE FILTROS -->
-                                                    <div class="btn-img text-start">
-                                                        <h4>Filtros</h4>
-                                                    </div> 
-                                                    <div class="tableFixHead table-responsive" style="height:auto;">
-                                                    <table >
-                                                        <thead>
-                                                            <th>Etiqueta</th>
-                                                            <th>Tipo</th>
-                                                            <th>Obligatorio</th>
-                                                            <th>Variable en la consulta</th>
-                                                            <!-- <th>Valor por defecto</th> -->
-                                                        </thead>
-                                                        <tr v-for="registro of aFiltros" :key="registro.id">
-                                                            <td>{{registro.etiqueta}}</td>
-                                                            <td>{{registro.tipo_lit}}</td>
-                                                            <td>
-                                                                <span v-if="registro.obligatorio == true">Si</span>
-                                                                <span v-if="registro.obligatorio == false">No</span>                                                
-                                                            </td>
-                                                            <td>{{registro.variable}}</td>
-                                                            <!-- <td>{{registro.valordefecto}}</td> -->
-                                                        </tr>
-
-                                                    </table>
-                                                    </div>     
-                                                </td>                           
-                                            </tr>                                         
-                                        </table>
-
-                                        <!-- NUEVA COLUMNA -->
-                                        <div class="btn-img float-end" @click="cr_expanded = !cr_expanded">
-                                            <h3 class="float-end">Columnas</h3>
-                                            <span v-if="cr_expanded == false" class="material-icons">add_circle_outline</span>
-                                            <span v-if="cr_expanded == true" class="material-icons">remove_circle_outline</span>
-                                        </div>
-
-                                        <div v-if="cr_expanded">     
-
-                                            <table>
-                                                <!-- PRIMER RENGLON -->
-                                                <tr>
-                                                    <!-- TITULO -->
-                                                    <td style="width:45%;">
-                                                        <div class="text-start input-group addon">
-                                                            <label>(*) T&iacute;tulo para la columna:</label>
-                                                            <input ref="refcrTituloColumna" type="text" class="form-control" v-model="crTituloColumna" placeholder="Título para la columna">
-                                                        </div> 
-                                                    </td>
-                                                    <!-- CAMPO -->
-                                                    <td style="width:45%;">
-                                                        <div class="text-start input-group addon">
-                                                            <label>(*) Campo:</label>
-                                                            <select ref="refcrCampoColumna" class="form-select" v-model="crCampoColumna">
-                                                                <option v-for="q of aCampos" :key="q.id" :disabled="q.id=='0'" :value="q.descripcion">{{q.descripcion}}</option>
-                                                            </select>        
-                                                        </div>                            
-                                                    </td>
-                                                    <!-- BOTONES -->
-                                                    <td style="width:10%;">
-                                                        <span @click="crAgregar()" class="iconos inline-icon btn-img material-icons" title="Agregar a la lista">save_alt</span>
-                                                        <span @click="crDescartar()" class="iconos inline-icon btn-img material-icons" title="Descartar">clear</span>                                    
-                                                    </td>
-                                                </tr>
-                                                <!-- SEGUNDO RENGLON -->
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group addon">
-                                                            <label for="refOrdenar">Ordenar por esta columna:</label>
-                                                            <label class="content-input">
-                                                                <input ref="refcrOrdenar" id="refcrOrdenar" type="checkbox" v-model="crOrdenarColumna">
-                                                                <i></i>
-                                                            </label>                                              
-                                                        </div>
-                                                    </td> 
-                                                    <td>
-                                                        <div class="input-group addon">
-                                                            <label for="refFiltrar">Filtrar por esta columna:</label>
-                                                            <label class="content-input">
-                                                                <input ref="refcrFiltrar" id="refcrFiltrar" type="checkbox" v-model="crFiltrarColumna">
-                                                                <i></i>
-                                                            </label>                                              
-                                                        </div>
-                                                    </td>                                     
-                                                    <td class="text-end" style="color:red;">
-                                                        {{crMensaje}}
-                                                    </td>
-                                                </tr>                                
-                                            </table>
-
-                                        </div>
-
-                                        <!-- LISTA DE COLUMNAS -->
-                                        <div class="tableFixHead table-responsive" style="height:auto;">
-                                        <table >
-                                            <thead>
-                                                <th>T&iacute;tulo</th>
-                                                <th>Campo</th>
-                                                <th>Ordenar</th>
-                                                <th>filtrar</th>
-                                                <th></th>
-                                            </thead>
-                                            <tr v-for="registro of modelo.oCRUD00.Columnas" :key="registro.id">
-                                                <td>{{registro.titulo}}</td>
-                                                <td>{{registro.campo}}</td>
-                                                <td>
-                                                    <span v-if="registro.ordenar == true">Si</span>
-                                                    <span v-if="registro.ordenar == false">No</span>
-                                                </td>
-                                                <td>
-                                                    <span v-if="registro.filtrar == true">Si</span>
-                                                    <span v-if="registro.filtrar == false">No</span>
-                                                </td>
-                                                <td>
-                                                    <span @click="crQuitar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
-                                                    <span @click="crEditar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Editar este registro">mode_edit</span>
-                                                </td>
-                                            </tr>
-
-                                        </table>
-                                        </div>
-
-                                        <div class="btn-img float-end">
-                                            <h3 class="float-end">Otros datos</h3>
-                                        </div>
-                                        <div class="tableFixHead table-responsive" style="height:auto;">
-                                        <table>
-                                            <tr>
-                                                <td style="width:30%;">
-                                                    <div class="input-group addon">
-                                                        <label for="refcrEditar">Editar los datos de este registro:</label>
-                                                        <label class="content-input">
-                                                            <input ref="refcrEditar" id="refcrEditar" type="checkbox" v-model="modelo.oCRUD00.Row_editar">
-                                                            <i></i>
-                                                        </label>                                              
-                                                    </div>
-                                                </td> 
-                                                <td style="width:30%;">
-                                                    <div class="input-group addon">
-                                                        <label for="refEliminar">Eliminar los datos de este registro:</label>
-                                                        <label class="content-input">
-                                                            <input ref="refcrEliminar" id="refcrEliminar" type="checkbox" v-model="modelo.oCRUD00.Row_eliminar">
-                                                            <i></i>
-                                                        </label>                                              
-                                                    </div>
-                                                </td>      
-                                                <td style="width:30%;">
-                                                    <div class="input-group addon">
-                                                        <label for="refcrListar">Listar los registros (Excel):</label>
-                                                        <label class="content-input">
-                                                            <input ref="refcrListar" id="refcrListar" type="checkbox" v-model="modelo.oCRUD00.btn_Listar">
-                                                            <i></i>
-                                                        </label>                                              
-                                                    </div>
-                                                </td>   
-                                                <td style="width:10%;">
-
-                                                </td>        
-
-                                            </tr>  
-                                            <tr v-if="modelo.oCRUD00.btn_Listar == true">
-                                                <td class="text-start">
-                                                    <label>(*) Consulta de datos para el listado:</label>
-                                                </td>
-                                                <td colspan="2" class="text-start">
-                                                    <select ref="crLQuery" class="form-select" v-model="modelo.oCRUD00.idQueryListado" @change="crLCambioQuery()"> 
-                                                        <option v-for="q of aQuerys" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.id}} {{q.descripcion}}</option>
+                                                </div>
+                                            </div>
+                                            <div class="text-start input-group addon"> 
+                                                <div style="width:20%;">       
+                                                    <label>(*) Valor por defecto:</label>
+                                                </div>
+                                                <div style="width:80%;">
+                                                    <select ref="refcr1ListavalDef" class="form-select w-90" v-model="cr1ValorDefault">
+                                                        <option v-for="q of cr1ListaValValores" :key="q.id" :value="q.valor">{{q.descripcion}}</option>
+                                                    </select>   
+                                                </div>     
+                                            </div>                                                         
+                                        </div>                                                                                                       
+                                        <!-- SELECTABLE -->
+                                        <div v-if="cr1Formato=='S'">
+                                            <div class="text-start input-group addon">
+                                                <div style="width:20%;">
+                                                    <label>(*) Seleccionable:</label>
+                                                </div>
+                                                <div style="width:80%;">
+                                                    <select ref="refcr1Listaval" class="form-select w-90" v-model="cr1Selectable">
+                                                        <option v-for="q of aSelectables" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
                                                     </select>
-                                                </td>
-                                                <td class="text-start">
-                                                    <span v-if="modelo.oCRUD00.idQueryListado == '0'" class="iconos inline-icon btn-img material-icons" title="Selecciona una consulta">visibility_off</span>
-                                                    <span @click="CargaConsulta(modelo.oCRUD00.idQueryListado, 'L')" v-if="modelo.oCRUD00.idQueryListado != '0'" class="iconos inline-icon btn-img material-icons" title="Ver consulta">visibility</span>
-                                                </td>
-                                            </tr>  
-                                            <tr v-if="modelo.oCRUD00.idQueryListado != '0' && crLCadenaSQL != ''">
-                                                <td colspan="4"> 
-                                                    <div  class="w-100 input-group addon pb-4">
-                                                        <div class="container-fluid">
-                                                            <span @click="crLCadenaSQL = ''" class="iconos inline-icon btn-img material-icons float-end" title="Cerrar">close</span>
-                                                        </div>
-                                                        <textarea ref="crLConsultaSQL" id="crLConsultaSQL" class="form-control" disabled rows="5" :maxlength="5000" style="height: 100px;width: 100%;font-family:Courier" v-model="crLCadenaSQL" placeholder="Consulta SQL completa"></textarea>
-                                                    </div>
-                                                </td> 
-                                            </tr>     
-                                            <tr v-if="modelo.oCRUD00.idQueryListado != '0' && crLCadenaSQL != ''">
-                                                <td colspan="3">
-                                                    <!-- LISTA DE FILTROS -->
-                                                    <div class="btn-img text-start">
-                                                        <h4>Filtros</h4>
-                                                    </div> 
-                                                    <div class="tableFixHead table-responsive" style="height:auto;">
-                                                    <table >
-                                                        <thead>
-                                                            <th>Etiqueta</th>
-                                                            <th>Tipo</th>
-                                                            <th>Obligatorio</th>
-                                                            <th>Variable en la consulta</th>
-                                                            <!-- <th>Valor por defecto</th> -->
-                                                        </thead>
-                                                        <tr v-for="registro of aFiltros" :key="registro.id">
-                                                            <td>{{registro.etiqueta}}</td>
-                                                            <td>{{registro.tipo_lit}}</td>
-                                                            <td>
-                                                                <span v-if="registro.obligatorio == true">Si</span>
-                                                                <span v-if="registro.obligatorio == false">No</span>                                                
-                                                            </td>
-                                                            <td>{{registro.variable}}</td>
-                                                            <!-- <td>{{registro.valordefecto}}</td> -->
-                                                        </tr>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </td>
+                                    <!-- MENSAJE -->
+                                    <td class="text-end" style="color:red;">
+                                        {{cr1Mensaje}}
+                                    </td>
+                                </tr>
 
-                                                    </table>
-                                                    </div>     
-                                                </td>                           
-                                            </tr>  
-                                        </table>   
-                                        </div>
+                            </table>
 
-                                    </form>
-                                    
-                                </div>
-                                
-                            </div> <!-- Accordion body -->
+                        </div>
 
-                        </div> <!-- Accordion item -->
-                    
-                        <!-- /////////////////////////////////////////////////////////////////////////////////// -->
-                        <!-- SEGUNDO PASO -->
-                        <!-- /////////////////////////////////////////////////////////////////////////////////// -->                    
-                        <div class="accordion-item">
+                        <!-- LISTA DE CAMPOS CRUD01 -->
+                        <div class="tableFixHead table-responsive" style="height:auto;">
+                        <table >
+                            <thead>
+                                <th>Campo</th>
+                                <th>Etiqueta</th>
+                                <th>Formato</th>
+                                <th>Valor por defecto</th>
+                                <th>Habilitado al inicio</th>
+                                <th></th>
+                            </thead>
+                            <tr v-for="registro of modelo.oCRUD01.Campos" :key="registro.id">
+                                <td>{{registro.campo}}</td>
+                                <td>{{registro.etiqueta}}</td>
+                                <td>{{cTipos[cTipos.findIndex( x => x.id == registro.formato)].literal}}</td>
+                                <td>
+                                    <span v-if="registro.formato == 'K' && registro.valordefault == true">Si</span>
+                                    <span v-if="registro.formato == 'K' && registro.valordefault == false">No</span>
+                                    <span v-if="registro.formato != 'K'">{{registro.valordefault}}</span>
+                                </td>
+                                <td>
+                                    <span v-if="registro.enabledinicial == true">Si</span>
+                                    <span v-if="registro.enabledinicial == false">No</span>
+                                </td>
+                                <td>
+                                    <span @click="cr1Quitar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
+                                    <span @click="cr1Editar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Editar este registro">mode_edit</span>
+                                </td>
+                            </tr>
 
-                            <h3 class="accordion-header" id="CRUD01-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#CRUD01" aria-expanded="true" aria-controls="CRUD01" style="color: var(--true-button-color);">
-                                Paso 2 (Edición de un registro)
-                                </button>
-                            </h3>  
+                        </table>
+                        </div>
 
-                            <div id="CRUD01" class="accordion-collapse collapse" aria-labelledby="CRUD01-header"  data-bs-parent="#CRUD">
-                                <div class="accordion-body">
-
-                                    <form action @submit.prevent="cero">
-
-                                        <!-- TABLA -->
-                                        <table>
-                                            <tr>
-                                                <td class="text-start" style="width:30%;">
-                                                    <label>(*) Tabla principal:</label>
-                                                </td>
-                                                <td class="text-start" style="width:60%;">
-                                                    <select ref="cr1Tabla" class="w-100 form-select" v-model="modelo.oCRUD01.tabla" @change="cargaCamposTabla(modelo.oCRUD01.tabla)"> 
-                                                        <option v-for="q of aTablas" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.id}} {{q.descripcion}}</option>
-                                                    </select>
-                                                </td>
-                                                <td class="text-start"  style="width:10%;">
-                                                </td>
-                                            </tr>
-
-                                        </table>
-
-                                        <div class="btn-img float-end" @click="cr1_expanded = !cr1_expanded">
-                                            <h3 class="float-end">Campos</h3>
-                                            <span v-if="cr1_expanded == false" class="material-icons">add_circle_outline</span>
-                                            <span v-if="cr1_expanded == true" class="material-icons">remove_circle_outline</span>
-                                        </div>
-
-                                        <div v-if="cr1_expanded">     
-
-                                            <table>
-                                                <!-- PRIMER RENGLON -->
-                                                <tr>
-                                                    <!-- CAMPO -->
-                                                    <td style="width:30%;">
-                                                        <div class="text-start input-group addon">
-                                                            <label>(*) Campo:</label>
-                                                            <select ref="refcr1Campo" class="form-select" v-model="cr1Campo" @change="cr1CambiaCampo()">
-                                                                <option v-for="q of cr1Campos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
-                                                            </select>        
-                                                        </div>                            
-                                                    </td>   
-                                                    <!-- ETIQUETA -->
-                                                    <td style="width:40%;">
-                                                        <div class="text-start input-group addon">
-                                                            <label>(*) Etiqueta en pantalla:</label>
-                                                            <input ref="refcr1Etiqueta" type="text" class="form-control" v-model="cr1Etiqueta" placeholder="Etiqueta en pantalla">
-                                                        </div> 
-                                                    </td> 
-                                                    <!-- ENABLED INICIAL -->
-                                                    <td style="width:20%;">
-                                                        <div class="input-group addon">
-                                                            <label for="refcr1EnabledInicial">Habilitado al inicio:</label>
-                                                            <label class="content-input">
-                                                                <input ref="refcr1EnabledInicial" id="refcr1EnabledInicial" type="checkbox" v-model="cr1EnabledInicial">
-                                                                <i></i>
-                                                            </label>                                              
-                                                        </div>
-                                                    </td>                                     
-                                                    <!-- BOTONES -->
-                                                    <td style="width:10%;">
-                                                        <span @click="cr1Agregar()" class="iconos inline-icon btn-img material-icons" title="Agregar a la lista">save_alt</span>
-                                                        <span @click="cr1Descartar()" class="iconos inline-icon btn-img material-icons" title="Descartar">clear</span>                                    
-                                                    </td>
-                                                </tr>
-                                                <!-- SEGUNDO RENGLON -->
-                                                <tr>
-                                                    <!-- FORMATO -->
-                                                    <td>
-                                                        <div class="text-start input-group addon">
-                                                            <label>(*) Formato:</label>
-                                                            <select ref="refcr1Formato" class="form-select" v-model="cr1Formato" @change="cr1ValorDefault = ''">
-                                                                <option v-for="q of cTipos" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.literal}}</option>
-                                                            </select>        
-                                                        </div> 
-                                                    </td>  
-                                                    <!-- VALOR POR DEFECTO SEGUN EL TIPO -->
-                                                    <td colspan="2">
-                                                        <div v-if="cr1Formato=='C'" class="input-group addon">
-                                                            <label for="nuevo_cr1Default">Valor inicial:</label>
-                                                            <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="text" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
-                                                        </div>
-                
-                                                        <div v-if="cr1Formato=='D'" class="input-group addon">
-                                                            <label for="nuevo_cr1Default">Valor inicial:</label>
-                                                            <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="date" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
-                                                        </div> 
-                                                        <div v-if="cr1Formato=='T'" class="input-group addon">
-                                                            <label for="nuevo_cr1Default">Valor inicial:</label>
-                                                            <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="datetime-local" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
-                                                        </div>    
-                                                        <div v-if="cr1Formato=='H'" class="input-group addon">
-                                                            <label for="nuevo_cr1Default">Valor inicial:</label>
-                                                            <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="time" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
-                                                        </div>       
-                                                        <div v-if="cr1Formato=='A'" class="input-group addon mb-3">
-                                                            <label for="nuevo_cr1Default">Valor inicial:</label>
-                                                            <textarea ref="nuevo_cr1Default" id="nuevo_cr1Default" class="form-control" cols="50" :maxlength="tancho" style="width:100%;" v-model="cr1ValorDefault" placeholder="Valor inicial"></textarea>
-                                                        </div>
-                                                        <div v-if="cr1Formato=='K'">
-                                                            <div class="input-group addon">
-                                                                <label for="nuevo_cr1Default">Valor inicial:</label>
-                                                                <label class="content-input">
-                                                                    <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="checkbox" v-model="cr1ValorDefault">
-                                                                    <i></i>
-                                                                </label>                                              
-                                                            </div>
-                                                        </div>        
-                                                        <div v-if="cr1Formato=='N' || cr1Formato=='M'" class="input-group addon">
-                                                            <label for="nuevo_cr1Default">Valor inicial:</label>
-                                                            <input 
-                                                                ref="nuevo_cr1Default" 
-                                                                id="nuevo_cr1Default" 
-                                                                type="text" style="width:60%;" 
-                                                                class="form-control" 
-                                                                v-model="cr1ValorDefault" 
-                                                                @blur="cr1ValidarDefault($event)"
-                                                                @keydown="noPuntos($event, false)"
-                                                                :title="`${'Valor máximo permitido: ' + cr1ValorMaximoDefault}`"> 
-                                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="z-index:9999" v-if="cr1DefError">Máx: {{cr1ValorMaximoDefault}}</span>
-                                                        </div>
-                                                        <!-- LISTA DE VALORES -->
-                                                        <div v-if="cr1Formato=='L'">
-                                                            <div class="text-start input-group addon">
-                                                                <div style="width:20%;">
-                                                                    <label>(*) Lista de valores:</label>
-                                                                </div>
-                                                                <div style="width:80%;">
-                                                                    <select ref="refcr1Listaval" class="form-select w-90" v-model="cr1Listaval" @change="cr1CambiaListaVal()">
-                                                                        <option v-for="q of aListasVal" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-start input-group addon"> 
-                                                                <div style="width:20%;">       
-                                                                    <label>(*) Valor por defecto:</label>
-                                                                </div>
-                                                                <div style="width:80%;">
-                                                                    <select ref="refcr1ListavalDef" class="form-select w-90" v-model="cr1ValorDefault">
-                                                                        <option v-for="q of cr1ListaValValores" :key="q.id" :value="q.valor">{{q.descripcion}}</option>
-                                                                    </select>   
-                                                                </div>     
-                                                            </div>                                                         
-                                                        </div>                                                                                                       
-                                                        <!-- SELECTABLE -->
-                                                        <div v-if="cr1Formato=='S'">
-                                                            <div class="text-start input-group addon">
-                                                                <div style="width:20%;">
-                                                                    <label>(*) Seleccionable:</label>
-                                                                </div>
-                                                                <div style="width:80%;">
-                                                                    <select ref="refcr1Listaval" class="form-select w-90" v-model="cr1Selectable">
-                                                                        <option v-for="q of aSelectables" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div> 
-                                                    </td>
-                                                    <!-- MENSAJE -->
-                                                    <td class="text-end" style="color:red;">
-                                                        {{cr1Mensaje}}
-                                                    </td>
-                                                </tr>
-
-                                            </table>
-
-                                        </div>
-
-                                        <!-- LISTA DE CAMPOS CRUD01 -->
-                                        <div class="tableFixHead table-responsive" style="height:auto;">
-                                        <table >
-                                            <thead>
-                                                <th>Campo</th>
-                                                <th>Etiqueta</th>
-                                                <th>Formato</th>
-                                                <th>Valor por defecto</th>
-                                                <th>Habilitado al inicio</th>
-                                                <th></th>
-                                            </thead>
-                                            <tr v-for="registro of modelo.oCRUD01.Campos" :key="registro.id">
-                                                <td>{{registro.campo}}</td>
-                                                <td>{{registro.etiqueta}}</td>
-                                                <td>{{cTipos[cTipos.findIndex( x => x.id == registro.formato)].literal}}</td>
-                                                <td>
-                                                    <span v-if="registro.formato == 'K' && registro.valordefault == true">Si</span>
-                                                    <span v-if="registro.formato == 'K' && registro.valordefault == false">No</span>
-                                                    <span v-if="registro.formato != 'K'">{{registro.valordefault}}</span>
-                                                </td>
-                                                <td>
-                                                    <span v-if="registro.enabledinicial == true">Si</span>
-                                                    <span v-if="registro.enabledinicial == false">No</span>
-                                                </td>
-                                                <td>
-                                                    <span @click="cr1Quitar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
-                                                    <span @click="cr1Editar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Editar este registro">mode_edit</span>
-                                                </td>
-                                            </tr>
-
-                                        </table>
-                                        </div>
-
-                                    </form>
-
-                                </div>
-                            </div>  <!-- Accordion body -->
-
-                        </div> <!-- Accordion item -->
-
-                    </div>  <!-- Accordion main -->
-
+                    </form>
 
                 </div>
 
@@ -1752,7 +1463,7 @@ export default {
             dTipos: [
                 {id: '0', literal: "Selecciona ..."},
                 {id: 'G', literal: "Tabla de gestiones"},
-                {id: 'C', literal: "CRUD (create, read, update, delete)"},
+                {id: 'C', literal: "CRUD (un registro: create / update)"},
                 {id: 'D', literal: "Capturar/Informar datos"},
                 {id: 'I', literal: "Listado o Informe"},
                 {id: 'B', literal: "Buscador"},
@@ -1790,19 +1501,7 @@ export default {
             tgCampoColumna: '',
             tgOrdenarColumna: false,
             tgFiltrarColumna: false,
-            // CRUD00
-            cridQueryOld: '0',
-            cr_id: funciones.generarUUID2(),
-            cr_expanded: false,
-            crL_expanded: false,
-            crMensaje: '',  
-            crCadenaSQL: '',
-            crLCadenaSQL: '',
-            crTituloColumna: '',
-            crCampoColumna: '',
-            crOrdenarColumna: '',
-            crFiltrarColumna: '',
-            // CRUD01
+            // CRUD
             cr1_id: funciones.generarUUID2(),
             cr1_expanded: false,
             cr1Mensaje: '', 
@@ -1881,14 +1580,6 @@ export default {
                     Row_listar: false,
                     Row_editar: false,
                     Row_eliminar: false,
-                },
-                oCRUD00: {
-                    idQuery: '0',
-                    Columnas: [],
-                    Row_editar: false,
-                    Row_eliminar: false,
-                    btn_Listar: false,
-                    idQueryListado: '0'
                 },
                 oCRUD01: {
                     tabla: '0',
@@ -2020,7 +1711,7 @@ export default {
 
                                 let tCampos = [{
                                     id: '0',
-                                    descripcion: '"Selecciona un campo ...'                                    
+                                    descripcion: 'Selecciona un campo ...'                                    
                                 }];
 
                                 // Hacer el parse de los campos de la tabla
@@ -2190,11 +1881,6 @@ export default {
                         if(this.modelo.oDisenio.tipo == 'G' && this.modelo.oTablaGestiones.idQuery != '0') {
                             this.cargaCamposConsulta(this.modelo.oTablaGestiones.idQuery);
                         }
-                        if(this.modelo.oCRUD00.idQuery) {
-                            if(this.modelo.oDisenio.tipo == 'C' && this.modelo.oCRUD00.idQuery != '0') {
-                                this.cargaCamposConsulta(this.modelo.oCRUD00.idQuery);
-                            }
-                        }   
                         if(this.modelo.oCRUD01.tabla) {
                             this.cargaCamposTabla(this.modelo.oCRUD01.tabla);
                         } 
@@ -2254,6 +1940,9 @@ export default {
             this.error_grave = 0;
             this.error_warning = 0;
 
+            // Eliminar el CRUD00 reemplazado por la Tabla de gestiones
+            delete this.modelo.oCRUD00;
+
             // Limpiar los objetos que no aplican
             switch(this.modelo.oDisenio.tipo) {
             case 'G':   // Tabla de gestiones
@@ -2264,13 +1953,6 @@ export default {
                 // this.modelo.oTablaGestiones.Row_listar   = false,
                 // this.modelo.oTablaGestiones.Row_editar   = false,
                 // this.modelo.oTablaGestiones.Row_eliminar = false,
-
-                this.modelo.oCRUD00.idQuery  = '0';
-                this.modelo.oCRUD00.Columnas = [];
-                this.modelo.oCRUD00.Row_editar     = false;
-                this.modelo.oCRUD00.Row_eliminar   = false;
-                this.modelo.oCRUD00.btn_Listar     = false;
-                this.modelo.oCRUD00.idQueryListado = '0';
 
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
@@ -2301,13 +1983,6 @@ export default {
                 this.modelo.oTablaGestiones.Row_editar   = false,
                 this.modelo.oTablaGestiones.Row_eliminar = false,
 
-                // this.modelo.oCRUD00.idQuery  = '0';
-                // this.modelo.oCRUD00.Columnas = [];
-                // this.modelo.oCRUD00.Row_editar     = false;
-                // this.modelo.oCRUD00.Row_eliminar   = false;
-                // this.modelo.oCRUD00.btn_Listar     = false;
-                // this.modelo.oCRUD00.idQueryListado = '0';
-
                 // this.modelo.oCRUD01.tabla          = '0';
                 // this.modelo.oCRUD01.Campos         = [];
 
@@ -2336,13 +2011,6 @@ export default {
                 this.modelo.oTablaGestiones.Row_listar   = false,
                 this.modelo.oTablaGestiones.Row_editar   = false,
                 this.modelo.oTablaGestiones.Row_eliminar = false,
-
-                this.modelo.oCRUD00.idQuery  = '0';
-                this.modelo.oCRUD00.Columnas = [];
-                this.modelo.oCRUD00.Row_editar     = false;
-                this.modelo.oCRUD00.Row_eliminar   = false;
-                this.modelo.oCRUD00.btn_Listar     = false;
-                this.modelo.oCRUD00.idQueryListado = '0';
 
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
@@ -2373,13 +2041,6 @@ export default {
                 this.modelo.oTablaGestiones.Row_editar   = false,
                 this.modelo.oTablaGestiones.Row_eliminar = false,
 
-                this.modelo.oCRUD00.idQuery  = '0';
-                this.modelo.oCRUD00.Columnas = [];
-                this.modelo.oCRUD00.Row_editar     = false;
-                this.modelo.oCRUD00.Row_eliminar   = false;
-                this.modelo.oCRUD00.btn_Listar     = false;
-                this.modelo.oCRUD00.idQueryListado = '0';
-
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
 
@@ -2409,13 +2070,6 @@ export default {
                 this.modelo.oTablaGestiones.Row_editar   = false,
                 this.modelo.oTablaGestiones.Row_eliminar = false,
 
-                this.modelo.oCRUD00.idQuery  = '0';
-                this.modelo.oCRUD00.Columnas = [];
-                this.modelo.oCRUD00.Row_editar     = false;
-                this.modelo.oCRUD00.Row_eliminar   = false;
-                this.modelo.oCRUD00.btn_Listar     = false;
-                this.modelo.oCRUD00.idQueryListado = '0';
-
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
 
@@ -2444,13 +2098,6 @@ export default {
                 this.modelo.oTablaGestiones.Row_listar   = false,
                 this.modelo.oTablaGestiones.Row_editar   = false,
                 this.modelo.oTablaGestiones.Row_eliminar = false,
-
-                this.modelo.oCRUD00.idQuery  = '0';
-                this.modelo.oCRUD00.Columnas = [];
-                this.modelo.oCRUD00.Row_editar     = false;
-                this.modelo.oCRUD00.Row_eliminar   = false;
-                this.modelo.oCRUD00.btn_Listar     = false;
-                this.modelo.oCRUD00.idQueryListado = '0';
 
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
@@ -2555,36 +2202,6 @@ export default {
 
             case 'C':
                 // CRUD
-                if(this.modelo.oCRUD00.idQuery == '0') {
-                    this.errores.push({
-                        idx: this.errores.length + 1,
-                        codigo: 'e001',   // 'e001' Falta rellenar el campo
-                        descripcion: "Para el tipo de pantalla CRUD (Paso 1) es obligatorio indicar la consulta",
-                        ref: 'crQuery',
-                        tab: 4
-                    })
-                    this.error_grave++;
-                }
-                if(this.modelo.oCRUD00.Columnas.length == 0) {
-                    this.errores.push({
-                        idx: this.errores.length + 1,
-                        codigo: 'e001',   // 'e001' Falta rellenar el campo
-                        descripcion: "Para el tipo de pantalla CRUD (Paso 1) es obligatorio indicar las columnas",
-                        ref: 'crQuery',
-                        tab: 4
-                    })
-                    this.error_grave++;
-                }    
-                if(this.modelo.oCRUD00.btn_Listar == true && this.modelo.oCRUD00.idQueryListado == '0') {
-                    this.errores.push({
-                        idx: this.errores.length + 1,
-                        codigo: 'e001',   // 'e001' Falta rellenar el campo
-                        descripcion: "CRUD (Paso1) Si has indicado que deseas incluir un listado, debes indicar la consulta a utilizar",
-                        ref: 'crLQuery',
-                        tab: 4
-                    })
-                    this.error_grave++;
-                }    
                 if(this.modelo.oCRUD01.tabla == '0') {
                     this.errores.push({
                         idx: this.errores.length + 1,
@@ -2871,7 +2488,7 @@ export default {
             }
 
         },
-        CargaConsulta(pId, pCual) {
+        CargaConsulta(pId) {
 
             this.hiddentelon = false;   
 
@@ -2896,12 +2513,6 @@ export default {
                         if(this.modelo.oDisenio.tipo == 'S') {
                             this.seCadenaSQL = tmp_modelo.oQuery.cadenaSQL;
                         }                                                                        
-                        if(this.modelo.oDisenio.tipo == 'C' && pCual != 'L') {
-                            this.crCadenaSQL = tmp_modelo.oQuery.cadenaSQL;
-                        }
-                        if(this.modelo.oDisenio.tipo == 'C' && pCual == 'L') {
-                            this.crLCadenaSQL = tmp_modelo.oQuery.cadenaSQL;
-                        }
                     }
 
                 }).finally(() => {
@@ -2961,11 +2572,6 @@ export default {
 
         },
         cargaCamposTabla(pId) {
-
-            this.cr1Campos = [{
-                id: '0',
-                descripcion: 'Selecciona un campo ...'
-            }];
 
             let idt = this.aTablas.findIndex(x => x.id === pId);
 
@@ -3085,113 +2691,7 @@ export default {
             }
 
         },     
-        // CRUD00
-        crVaciarColumnas() {
-
-            if(this.modelo.oCRUD00.Columnas.length > 0) {
-                funciones.popAlert('warning', 'Se perderá la definición de las columnas!', false, true, 3000, 'Ok')
-                .then(() => {
-
-                    this.modelo.oCRUD00.Columnas = [];
-                    return true;
-
-                });
-            } else {
-                return true;
-            }
-
-        },            
-        crDescartar() {
-            this.cr_id = funciones.generarUUID2();
-            this.crTituloColumna = '';
-            this.crCampoColumna = '';
-            this.crOrdenarColumna = false;
-            this.crFiltrarColumna = false,
-            
-            this.crMensaje = "";
-            this.$refs.refcrTituloColumna.focus();
-
-        },
-        crAgregar() {
-
-            let editando = this.modelo.oCRUD00.Columnas.findIndex(x => x.id === this.cr_id);
-
-            if(this.crTituloColumna == '' || this.crCampoColumna == '') {
-                this.crMensaje = "Faltan datos";
-                this.$refs.refcrTituloColumna.focus();
-                return;
-            }
-
-            if(editando == -1) {
-                this.modelo.oCRUD00.Columnas.push({
-                    id: this.cr_id,
-                    titulo: this.crTituloColumna,
-                    campo: this.crCampoColumna,
-                    ordenar: this.crOrdenarColumna,
-                    filtrar: this.crFiltrarColumna
-
-                })
-            } else {
-                this.modelo.oCRUD00.Columnas[editando].titulo = this.crTituloColumna;
-                this.modelo.oCRUD00.Columnas[editando].campo = this.crCampoColumna;
-                this.modelo.oCRUD00.Columnas[editando].ordenar = this.crOrdenarColumna;
-                this.modelo.oCRUD00.Columnas[editando].filtrar = this.crFiltrarColumna;
-            }
-
-            this.crDescartar();
-
-        },
-        crQuitar(pId) {
-
-            this.modelo.oCRUD00.Columnas = this.modelo.oCRUD00.Columnas.filter((tx) => {
-                return tx.id != pId; 
-            }) 
-
-        },
-        crEditar(pId) {
-
-            let idx = this.modelo.oCRUD00.Columnas.findIndex(x => x.id === pId);
-
-            this.cr_expanded = true;
-
-            this.cr_id = pId;
-            this.crTituloColumna = this.modelo.oCRUD00.Columnas[idx].titulo;
-            this.crCampoColumna = this.modelo.oCRUD00.Columnas[idx].campo;
-            this.crOrdenarColumna = this.modelo.oCRUD00.Columnas[idx].ordenar;
-            this.crFiltrarColumna = this.modelo.oCRUD00.Columnas[idx].filtrar;
-
-        },        
-        crCambioQuery() {
-
-            if(this.modelo.oCRUD00.Columnas.length > 0) {
-                funciones.popAlert('warning', 'Se perderá la definición de las columnas!', true, true, 3000, 'Continuar?')
-                .then((result) => {
-                    if(result == true) {
-                        this.modelo.oCRUD00.Columnas = [];
-                        this.crCadenaSQL='';
-                        this.cridQueryOld = this.modelo.oCRUD00.idQuery;
-                        this.cargaCamposConsulta(this.modelo.oCRUD00.idQuery);
-                        return true;
-                    } else {
-                        this.modelo.oCRUD00.idQuery = this.cridQueryOld;
-                        return false;
-                    }
-                });
-            } else {
-                this.modelo.oCRUD00.Columnas = [];
-                this.crCadenaSQL='';
-                this.cridQueryOld = this.modelo.oCRUD00.idQuery;
-                this.cargaCamposConsulta(this.modelo.oCRUD00.idQuery);
-                return true;
-            }
-
-        },   
-        crLCambioQuery() {
-            this.crLCadenaSQL='';
-            this.cargaCamposConsulta(this.modelo.oCRUD00.idQuery, 'L');
-            return true;
-        },        
-        // CRUD01
+        // CRUD
         cr1VaciarCampos() {
 
             if(this.modelo.oCRUD01.Campos.length > 0) {

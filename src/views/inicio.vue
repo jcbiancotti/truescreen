@@ -61,12 +61,12 @@ export default {
             dTipos: [
                 {id: '0', literal: "Selecciona ..."},
                 {id: 'G', literal: "Tabla de gestiones"},
-                {id: 'C', literal: "CRUD (create, read, update, delete)"},
-                {id: 'D', literal: "Informar datos"},
+                {id: 'C', literal: "CRUD (un registro: create / update)"},
+                {id: 'D', literal: "Capturar/Informar datos"},
                 {id: 'I', literal: "Listado o Informe"},
                 {id: 'B', literal: "Buscador"},
                 {id: 'S', literal: "Selector"},
-            ],            
+            ],           
             // Modelo de la pantalla            
             modelo: {
                 oDatosGenerales: {
@@ -79,13 +79,6 @@ export default {
                     titulo: '',
                     subtitulo: '',
                     tipo: '0'
-                },
-                oTablaGestiones: {
-                    idQuery: '0',
-                    Columnas: [],
-                    Row_editar: false,
-                    Row_eliminar: false,
-                    
                 }
             }
 
@@ -208,6 +201,8 @@ export default {
 
                                 this.modelo = JSON.parse(result.data[0].objeto.split('&quot;').join('"'));
 
+                                delete this.modelo.oCRUD00;
+                                
                                 let tmp = this.modelo;
                             
                                 tmp.oDatosGenerales.screenId = funciones.generarUUID2();
