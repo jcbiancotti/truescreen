@@ -1,49 +1,63 @@
 <template>
-  <div class="home">
-    
+
+<div class="inicio">
+
     <telon :hidden="hiddentelon"/>
+
+    <div class="wrapper text-start">
+
+        <!-- LISTA DE PANTALLAS -->
+        <nav id="treePantallas">
     
-    <!-- LISTA DE PANTALLAS -->
-    <!-- <div class="card-deck"> -->
+            <div class="card-body">
 
-        <div class="row w-100 p-2 w-0">
+                <!-- NIVEL 0 -->
+                <ul class="nivel0">
 
-            <div class="col-lg-4 mb-2" v-for="documento of aDocumentos" :key="documento.clave">
+                    <div v-for="tipo of dTipos" :key="tipo.id">
+                    <li>
 
-                <div class="card mx-auto" style="width:18rem;">
+                        <a :href="'#S' + tipo.id" data-bs-toggle="collapse" aria-expanded="false">
+                            {{tipo.literal}} 
+                        </a>                        
 
-                    <div class="card-header text-left" style="line-height:12px;background-color: var(--true-color-empresa);">
-                        <p style="color:silver">Pantalla id: {{documento.id}}</p>
+                        <!-- NIVEL 1 -->
+                        <ul class="collapse nivel1" :id="'S' + tipo.id">
+
+                            <!-- Opciones del submenu NIVEL 1 -->
+                            <div v-for="scr1 of aDocumentos" :key="scr1.id">
+                            <li v-if="scr1.tipo == tipo.id">
+
+                                <p>
+                                    <span v-if="scr1.isActiva == true" class="iconos inline-icon btn-img material-icons" title="Versión activa!">radio_button_unchecked</span>
+                                    <span v-if="scr1.isActiva != true" class="iconos inline-icon btn-img material-icons" style="color:silver" title="Versión inactiva!">radio_button_unchecked</span>
+                                    {{scr1.titulo}} (v.{{scr1.version}})
+                                    <span @click="Editar(scr1.id)" class="iconos inline-icon btn-img material-icons">edit</span>
+                                    <span @click="Borrar(scr1.id)" class="iconos inline-icon btn-img material-icons">delete</span>
+                                    <span @click="Clonar(scr1.id)" class="iconos inline-icon btn-img material-icons">content_copy</span>
+                                    
+                                </p>
+
+                            </li>
+                            </div>
+
+                        </ul>
+
+                    </li>
                     </div>
-                    <div class="card-body text-justify" style="line-height : 12px;">
 
-                        <p>Título: {{documento.titulo}}</p>
-                        <p>Version: {{documento.version}}</p>
-                        <p>tipo: {{documento.tipo_lit}}</p>
-                        <p>
-                            <label class="content-input">
-                                <input type="checkbox" v-model="documento.isActiva" :disabled="true">
-                                <i></i>
-                            </label>
-                        </p>
+                </ul>
 
-                    </div>
-                    
-                    <div class="card-footer text-end">
-                        <span @click="Editar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Editar este documento">edit</span>
-                        <span @click="Clonar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Duplicar este documento">content_copy</span>
-                        <span @click="Borrar(documento.id)" class="iconos inline-icon btn-img material-icons" title="Borrar este documento">delete</span>
-                    </div>
-
-                </div>
 
             </div>
 
-        </div>
+        </nav>
 
-    <!-- </div> -->
+    </div>
 
-  </div>
+
+</div>
+
 </template>
 
 <script>
@@ -59,15 +73,14 @@ export default {
             hiddentelon: true,
             aDocumentos: [],
             dTipos: [
-                {id: '0', literal: "Selecciona ..."},
                 {id: 'G', literal: "Tabla de gestiones"},
-                {id: 'C', literal: "CRUD (create, read, update, delete)"},
-                {id: 'D', literal: "Informar datos"},
+                {id: 'C', literal: "CRUD (un registro: create / update)"},
+                {id: 'D', literal: "Capturar/Informar datos"},
                 {id: 'I', literal: "Listado o Informe"},
                 {id: 'B', literal: "Buscador"},
                 {id: 'S', literal: "Selector"},
-            ],            
-            // Modelo de la pantalla            
+            ],           
+            // Modelo de la definicion            
             modelo: {
                 oDatosGenerales: {
                     screenId: funciones.generarUUID2(), 
@@ -79,8 +92,7 @@ export default {
                     titulo: '',
                     subtitulo: '',
                     tipo: '0'
-                },
-
+                }
             }
 
         }
@@ -95,7 +107,6 @@ export default {
             try {
 
                 this.aDocumentos = [];
-
                 this.hiddentelon = false;
 
                 datos.leerLista("sys_screens", "true", ["clave","id", "titulo","tipo","version","activa"], "")
@@ -122,14 +133,16 @@ export default {
                                     clave: result.data[x].clave,
                                     id: result.data[x].id,
                                     titulo: result.data[x].titulo,
+                                    tipo: result.data[x].tipo,
                                     tipo_lit: xtipo,
                                     version:result.data[x].version,
                                     activa:result.data[x].activa,
                                     isActiva: act
                                 });
-                                
+
                             }
 
+                        
                         } 
 
                     }
@@ -202,6 +215,8 @@ export default {
 
                                 this.modelo = JSON.parse(result.data[0].objeto.split('&quot;').join('"'));
 
+                                delete this.modelo.oCRUD00;
+                                
                                 let tmp = this.modelo;
                             
                                 tmp.oDatosGenerales.screenId = funciones.generarUUID2();

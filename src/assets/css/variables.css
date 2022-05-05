@@ -23,6 +23,12 @@
 
     /* Desplegables */
     --true-select-background-color:  rgb(155, 240, 86);
-
     --true-background-error: rgb(226, 170, 170);
+    
+    /* SIDE MENU */
+    --true-menu-background: white;
+    --true-menu-color: white;
+    --true-menu-bar-color: silver;
+    --true-menu-bar-letras: black;
+
 }

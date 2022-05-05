@@ -19,8 +19,8 @@ const routes = [
     },  
     {
         path: '/inicio',
-        name: 'Inicio',
-        component: () => import('@/views/inicio.vue'),
+        name: 'treeInicio',
+        component: () => import('@/views/treeInicio.vue'),
         meta: { requiresAuth: true}
     },
     {
