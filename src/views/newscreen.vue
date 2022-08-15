@@ -152,7 +152,7 @@
                             </div>
                             <div class="w-50">                            
                                 <input ref="scrSubtitulo" type="text" class="form-control" v-model="modelo.oDisenio.subtitulo" placeholder="Subtítulo de la pantalla">
-                                <p>Es posible combinar variables con el texto, por ejemplo "Acciones a &fecha_hoy&". La lista de variables se describe en la documentación</p>
+                                <p>Es posible combinar variables con el texto, por ejemplo "Acciones a *!*fecha_hoy*!*". La lista de variables se describe en la documentación</p>
                             </div> 
 
                         </div>
