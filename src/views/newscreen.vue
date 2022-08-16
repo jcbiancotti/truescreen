@@ -284,7 +284,7 @@
                                 </tr>
                                 <!-- SEGUNDO RENGLON -->
                                 <tr>
-                                    <td>
+                                    <td colspan="2">
                                         <div class="input-group addon">
                                             <label for="reftgOrdenar">Ordenar por esta columna:</label>
                                             <label class="content-input">
@@ -293,15 +293,6 @@
                                             </label>                                              
                                         </div>
                                     </td> 
-                                    <td>
-                                        <div class="input-group addon">
-                                            <label for="reftgFiltrar">Filtrar por esta columna:</label>
-                                            <label class="content-input">
-                                                <input ref="reftgFiltrar" id="reftgFiltrar" type="checkbox" v-model="tgFiltrarColumna">
-                                                <i></i>
-                                            </label>                                              
-                                        </div>
-                                    </td>                                     
                                     <td class="text-end" style="color:red;">
                                         {{tgMensaje}}
                                     </td>
@@ -317,19 +308,15 @@
                                 <th>T&iacute;tulo</th>
                                 <th>Campo</th>
                                 <th>Ordenar</th>
-                                <th>filtrar</th>
+                                <th></th>
                                 <th></th>
                             </thead>
                             <tr v-for="registro of modelo.oTablaGestiones.Columnas" :key="registro.id">
                                 <td>{{registro.titulo}}</td>
                                 <td>{{registro.campo}}</td>
-                                <td>
+                                <td colspan="2">
                                     <span v-if="registro.ordenar == true">Si</span>
                                     <span v-if="registro.ordenar == false">No</span>
-                                </td>
-                                <td>
-                                    <span v-if="registro.filtrar == true">Si</span>
-                                    <span v-if="registro.filtrar == false">No</span>
                                 </td>
                                 <td>
                                     <span @click="tgQuitar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
@@ -368,7 +355,7 @@
                                 </td>                                                                
                                 <td>
                                     <div class="input-group addon">
-                                        <label for="reftgEditar">Editar los datos de este registro:</label>
+                                        <label for="reftgEditar">Editar el registro:</label>
                                         <label class="content-input">
                                             <input ref="reftgEditar" id="reftgEditar" type="checkbox" v-model="modelo.oTablaGestiones.Row_editar">
                                             <i></i>
@@ -377,7 +364,7 @@
                                 </td> 
                                 <td>
                                     <div class="input-group addon">
-                                        <label for="reftgEliminar">Eliminar los datos de este registro:</label>
+                                        <label for="reftgEliminar">Eliminar el registro:</label>
                                         <label class="content-input">
                                             <input ref="reftgEliminar" id="reftgEliminar" type="checkbox" v-model="modelo.oTablaGestiones.Row_eliminar">
                                             <i></i>
@@ -385,7 +372,38 @@
                                     </div>
                                 </td>                                     
 
-                            </tr>                                
+                            </tr>    
+                            <!-- SEGUNDO RENGLON-->
+                            <tr>
+                                <td>
+                                    <div class="text-start input-group addon">
+                                        <label>(*) Pantalla Agregar:</label>
+                                        <select ref="reftgPantallaAdd" class="form-select" :disabled="!modelo.oTablaGestiones.Row_agregar" v-model="modelo.oTablaGestiones.PantallaAdd">
+                                            <option v-for="q of aPantallasC" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                        </select>        
+                                    </div>   
+                                </td> 
+                                <td>
+                                    <div class="text-start input-group addon">
+                                        <label>(*) Pantalla Listar:</label>
+                                        <select ref="reftgPantallaList" class="form-select" :disabled="!modelo.oTablaGestiones.Row_listar" v-model="modelo.oTablaGestiones.PantallaList">
+                                            <option v-for="q of aPantallasI" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                        </select>        
+                                    </div>                                       
+                                </td>                                                                
+                                <td>
+                                    <div class="text-start input-group addon">
+                                        <label>(*) Pantalla Editar:</label>
+                                        <select ref="reftgPantallaEdit" class="form-select" :disabled="!modelo.oTablaGestiones.Row_editar" v-model="modelo.oTablaGestiones.PantallaEdit">
+                                            <option v-for="q of aPantallasC" :key="q.id" :disabled="q.id=='0'" :value="q.id">{{q.descripcion}}</option>
+                                        </select>        
+                                    </div> 
+                                </td> 
+                                <td>
+
+                                </td>                                     
+
+                            </tr>                               
                         </table>   
                         </div>                     
 
@@ -1491,6 +1509,8 @@ export default {
             aCampos: [{id:'0', descripcion: 'Seleccionar ...'}],
             aDocumentos: [],
             aFiltros: [],
+            aPantallasC: [],
+            aPantallasI: [],
             // Tabla de gestion
             tgidQueryOld: '0',
             tg_id: funciones.generarUUID2(),
@@ -1580,6 +1600,9 @@ export default {
                     Row_listar: false,
                     Row_editar: false,
                     Row_eliminar: false,
+                    PantallaAdd: '0',
+                    PantallaList: '0',
+                    PantallaEdit: '0',
                 },
                 oCRUD01: {
                     tabla: '0',
@@ -1669,6 +1692,14 @@ export default {
                     idQuery: '0',
                     campo_valor: '',
                     campo_descripcion: ''                    
+                }];
+                this.aPantallasC = [{
+                    id: '0',
+                    descripcion: 'Selecciona una pantalla ...',
+                }];
+                this.aPantallasI = [{
+                    id: '0',
+                    descripcion: 'Selecciona una pantalla ...',
                 }];
 
                 datos.leerLista("sys_modelo_datos", "1=1", ["clave", "id", "tipo", "descripcion", "objeto"], "descripcion")
@@ -1806,9 +1837,12 @@ export default {
                             }
 
                         }
-                        
+
                         // Cargar la lista de plantillas de documentos
-                        this.leerPlantillasDoc()
+                        this.leerPlantillasDoc();
+
+                        // Carga las pantallas
+                        this.leerPantallas();
 
                         // Modo edición, cargar datos
                         if(this.claveId != null) {
@@ -1864,7 +1898,46 @@ export default {
                 console.log(error);
             }
 
-        },                
+        },       
+        leerPantallas() {
+ 
+            try {
+                // Leer las pantallas
+                datos.leerLista("sys_screens", "tipo='C' OR tipo='I'", ["id", "titulo", "tipo"], "titulo")
+                .then((result) => {
+
+                    if (global.DEBUG)
+                        console.log("leerPantallas", "datos devueltos datos.leerPantallas", result);
+
+                    if (result.success == 1 && result.status == 200) {
+
+                        // Cargar la lista de documentos
+                        for (let x = 0; x < result.data.length; x++) {
+
+                            if (result.data[x].tipo == 'C') {
+                                this.aPantallasC.push({
+                                    id: result.data[x].id,
+                                    descripcion: result.data[x].titulo
+                                })
+                            }
+                            if (result.data[x].tipo == 'I') {
+                                this.aPantallasI.push({
+                                    id: result.data[x].id,
+                                    descripcion: result.data[x].titulo
+                                })
+                            }
+
+                        }
+                    }
+                }).finally(() => {
+                    this.hiddentelon = true;              
+                }) 
+
+            } catch(error) {
+                console.log(error);
+            }
+
+        },         
         LeerDatos() {
 
             try {
@@ -1978,10 +2051,13 @@ export default {
 
                 this.modelo.oTablaGestiones.idQuery      = 0,
                 this.modelo.oTablaGestiones.Columnas     = [];
-                this.modelo.oTablaGestiones.Row_agregar  = false,
-                this.modelo.oTablaGestiones.Row_listar   = false,
-                this.modelo.oTablaGestiones.Row_editar   = false,
-                this.modelo.oTablaGestiones.Row_eliminar = false,
+                this.modelo.oTablaGestiones.Row_agregar  = false;
+                this.modelo.oTablaGestiones.Row_listar   = false;
+                this.modelo.oTablaGestiones.Row_editar   = false;
+                this.modelo.oTablaGestiones.Row_eliminar = false;
+                this.modelo.oTablaGestiones.PantallaAdd  = '0';
+                this.modelo.oTablaGestiones.PantallaList = '0';
+                this.modelo.oTablaGestiones.PantallaEdit = '0';
 
                 // this.modelo.oCRUD01.tabla          = '0';
                 // this.modelo.oCRUD01.Campos         = [];
@@ -2007,10 +2083,13 @@ export default {
 
                 this.modelo.oTablaGestiones.idQuery      = 0,
                 this.modelo.oTablaGestiones.Columnas     = [];
-                this.modelo.oTablaGestiones.Row_agregar  = false,
-                this.modelo.oTablaGestiones.Row_listar   = false,
-                this.modelo.oTablaGestiones.Row_editar   = false,
-                this.modelo.oTablaGestiones.Row_eliminar = false,
+                this.modelo.oTablaGestiones.Row_agregar  = false;
+                this.modelo.oTablaGestiones.Row_listar   = false;
+                this.modelo.oTablaGestiones.Row_editar   = false;
+                this.modelo.oTablaGestiones.Row_eliminar = false;
+                this.modelo.oTablaGestiones.PantallaAdd  = '0';
+                this.modelo.oTablaGestiones.PantallaList = '0';
+                this.modelo.oTablaGestiones.PantallaEdit = '0';
 
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
@@ -2036,10 +2115,13 @@ export default {
 
                 this.modelo.oTablaGestiones.idQuery      = 0,
                 this.modelo.oTablaGestiones.Columnas     = [];
-                this.modelo.oTablaGestiones.Row_agregar  = false,
-                this.modelo.oTablaGestiones.Row_listar   = false,
-                this.modelo.oTablaGestiones.Row_editar   = false,
-                this.modelo.oTablaGestiones.Row_eliminar = false,
+                this.modelo.oTablaGestiones.Row_agregar  = false;
+                this.modelo.oTablaGestiones.Row_listar   = false;
+                this.modelo.oTablaGestiones.Row_editar   = false;
+                this.modelo.oTablaGestiones.Row_eliminar = false;
+                this.modelo.oTablaGestiones.PantallaAdd  = '0';
+                this.modelo.oTablaGestiones.PantallaList = '0';
+                this.modelo.oTablaGestiones.PantallaEdit = '0';
 
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
@@ -2065,10 +2147,13 @@ export default {
 
                 this.modelo.oTablaGestiones.idQuery      = 0,
                 this.modelo.oTablaGestiones.Columnas     = [];
-                this.modelo.oTablaGestiones.Row_agregar  = false,
-                this.modelo.oTablaGestiones.Row_listar   = false,
-                this.modelo.oTablaGestiones.Row_editar   = false,
-                this.modelo.oTablaGestiones.Row_eliminar = false,
+                this.modelo.oTablaGestiones.Row_agregar  = false;
+                this.modelo.oTablaGestiones.Row_listar   = false;
+                this.modelo.oTablaGestiones.Row_editar   = false;
+                this.modelo.oTablaGestiones.Row_eliminar = false;
+                this.modelo.oTablaGestiones.PantallaAdd  = '0';
+                this.modelo.oTablaGestiones.PantallaList = '0';
+                this.modelo.oTablaGestiones.PantallaEdit = '0';
 
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
@@ -2094,10 +2179,13 @@ export default {
 
                 this.modelo.oTablaGestiones.idQuery      = 0,
                 this.modelo.oTablaGestiones.Columnas     = [];
-                this.modelo.oTablaGestiones.Row_agregar  = false,
-                this.modelo.oTablaGestiones.Row_listar   = false,
-                this.modelo.oTablaGestiones.Row_editar   = false,
-                this.modelo.oTablaGestiones.Row_eliminar = false,
+                this.modelo.oTablaGestiones.Row_agregar  = false;
+                this.modelo.oTablaGestiones.Row_listar   = false;
+                this.modelo.oTablaGestiones.Row_editar   = false;
+                this.modelo.oTablaGestiones.Row_eliminar = false;
+                this.modelo.oTablaGestiones.PantallaAdd  = '0';
+                this.modelo.oTablaGestiones.PantallaList = '0';
+                this.modelo.oTablaGestiones.PantallaEdit = '0';
 
                 this.modelo.oCRUD01.tabla          = '0';
                 this.modelo.oCRUD01.Campos         = [];
@@ -2198,6 +2286,49 @@ export default {
                     this.error_grave++;
                 }    
 
+                if (!this.modelo.oTablaGestiones.Row_agregar) {
+                    this.modelo.oTablaGestiones.PantallaAdd = '0';
+                }
+                if (!this.modelo.oTablaGestiones.Row_listar) {
+                    this.modelo.oTablaGestiones.PantallaList = '0';
+                }
+                if (!this.modelo.oTablaGestiones.Row_editar) {
+                    this.modelo.oTablaGestiones.PantallaEdit = '0';
+                }
+                    
+                if(this.modelo.oTablaGestiones.Row_agregar == true && this.modelo.oTablaGestiones.PantallaAdd == '0' ) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para la pantalla a utilizar para añadir registros nuevos",
+                        ref: 'tgQuery',
+                        tab: 3
+                    })
+                    this.error_grave++;
+                } 
+
+                if(this.modelo.oTablaGestiones.Row_listar == true && this.modelo.oTablaGestiones.PantallaList == '0' ) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para la pantalla a utilizar para obtener el listado",
+                        ref: 'tgQuery',
+                        tab: 3
+                    })
+                    this.error_grave++;
+                    } 
+                
+                if(this.modelo.oTablaGestiones.Row_editar == true && this.modelo.oTablaGestiones.PantallaEdit == '0' ) {
+                    this.errores.push({
+                        idx: this.errores.length + 1,
+                        codigo: 'e001',   // 'e001' Falta rellenar el campo
+                        descripcion: "Para la pantalla a utilizar para editar un registro",
+                        ref: 'tgQuery',
+                        tab: 3
+                    })
+                    this.error_grave++;
+                } 
+                                
                 break;
 
             case 'C':
