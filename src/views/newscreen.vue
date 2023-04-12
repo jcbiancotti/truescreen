@@ -353,7 +353,7 @@
                                         </label>                                              
                                     </div>
                                 </td>                                                                
-                                <td>
+                                <td colspan="2">
                                     <div class="input-group addon">
                                         <label for="reftgEditar">Editar el registro:</label>
                                         <label class="content-input">
@@ -362,7 +362,7 @@
                                         </label>                                              
                                     </div>
                                 </td> 
-                                <td>
+                                <!-- <td>
                                     <div class="input-group addon">
                                         <label for="reftgEliminar">Eliminar el registro:</label>
                                         <label class="content-input">
@@ -370,7 +370,7 @@
                                             <i></i>
                                         </label>                                              
                                     </div>
-                                </td>                                     
+                                </td>                                      -->
 
                             </tr>    
                             <!-- SEGUNDO RENGLON-->
@@ -477,7 +477,7 @@
                                     <!-- ENABLED INICIAL -->
                                     <td style="width:20%;">
                                         <div class="input-group addon">
-                                            <label for="refcr1EnabledInicial">Habilitado al inicio:</label>
+                                            <label for="refcr1EnabledInicial">Editable:</label>
                                             <label class="content-input">
                                                 <input ref="refcr1EnabledInicial" id="refcr1EnabledInicial" type="checkbox" v-model="cr1EnabledInicial">
                                                 <i></i>
@@ -502,7 +502,7 @@
                                         </div> 
                                     </td>  
                                     <!-- VALOR POR DEFECTO SEGUN EL TIPO -->
-                                    <td colspan="2">
+                                    <td>
                                         <div v-if="cr1Formato=='C'" class="input-group addon">
                                             <label for="nuevo_cr1Default">Valor inicial:</label>
                                             <input ref="nuevo_cr1Default" id="nuevo_cr1Default" type="text" class="form-control" :maxlength="tancho" style="width:60%;" v-model="cr1ValorDefault" placeholder="Valor inicial">
@@ -583,6 +583,15 @@
                                             </div>
                                         </div> 
                                     </td>
+                                    <td style="width:20%;">
+                                        <div class="input-group addon">
+                                            <label for="refcr1Requerido">Requerido:</label>
+                                            <label class="content-input">
+                                                <input ref="refcr1Requerido" id="refcr1Requerido" type="checkbox" v-model="cr1Requerido">
+                                                <i></i>
+                                            </label>                                              
+                                        </div>
+                                    </td>                                     
                                     <!-- MENSAJE -->
                                     <td class="text-end" style="color:red;">
                                         {{cr1Mensaje}}
@@ -601,8 +610,8 @@
                                 <th>Etiqueta</th>
                                 <th>Formato</th>
                                 <th>Valor por defecto</th>
-                                <th>Habilitado al inicio</th>
-                                <th></th>
+                                <th>Editable</th>
+                                <th>Requerido</th>
                             </thead>
                             <tr v-for="registro of modelo.oCRUD01.Campos" :key="registro.id">
                                 <td>{{registro.campo}}</td>
@@ -617,6 +626,10 @@
                                     <span v-if="registro.enabledinicial == true">Si</span>
                                     <span v-if="registro.enabledinicial == false">No</span>
                                 </td>
+                                <td>
+                                    <span v-if="registro.requerido == true">Si</span>
+                                    <span v-if="registro.requerido == false">No</span>
+                                </td>                                
                                 <td>
                                     <span @click="cr1Quitar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Eliminar de la lista">delete</span>
                                     <span @click="cr1Editar(registro.id)" class="iconos inline-icon btn-img material-icons" title="Editar este registro">mode_edit</span>
@@ -676,7 +689,7 @@
                                     <!-- ENABLED INICIAL -->
                                     <td style="width:20%;">
                                         <div class="input-group addon">
-                                            <label for="refcdListar">Habilitado al inicio:</label>
+                                            <label for="refcdListar">Habilitado al añadir:</label>
                                             <label class="content-input">
                                                 <input ref="refcdEnabledInicial" id="refcrListar" type="checkbox" v-model="cdEnabledInicial">
                                                 <i></i>
@@ -1534,6 +1547,7 @@ export default {
             cr1Formato: '0',
             cr1ValorDefault: '',
             cr1EnabledInicial: false, 
+            cr1Requerido: false,
             cr1Listaval:'0', 
             cr1Selectable: '0',  
             // Captura de datos
@@ -2845,6 +2859,7 @@ export default {
             this.cr1Formato = '0',
             this.cr1ValorDefault = '';
             this.cr1EnabledInicial = true;
+            this.cr1Requerido = true;
             this.cr1Listaval = '0';
             this.cr1Selectable = '0';
             
@@ -2872,6 +2887,7 @@ export default {
                     formato:        this.cr1Formato,
                     valordefault:   this.cr1ValorDefault,
                     enabledinicial: this.cr1EnabledInicial,
+                    requerido:      this.cr1Requerido,
                     ancho:          this.cr1Campos[xcampo].ancho,
                     decimales:      this.cr1Campos[xcampo].decimales,
                     listaval:       this.cr1Listaval,
@@ -2883,6 +2899,7 @@ export default {
                 this.modelo.oCRUD01.Campos[editando].formato        = this.cr1Formato;
                 this.modelo.oCRUD01.Campos[editando].valordefault   = this.cr1ValorDefault;
                 this.modelo.oCRUD01.Campos[editando].enabledinicial = this.cr1EnabledInicial;
+                this.modelo.oCRUD01.Campos[editando].requerido      = this.cr1Requerido;
                 this.modelo.oCRUD01.Campos[editando].ancho          = this.cr1Campos[xcampo].ancho;
                 this.modelo.oCRUD01.Campos[editando].decimales      = this.cr1Campos[xcampo].decimales;
                 this.modelo.oCRUD01.Campos[editando].listaval       = this.cr1Listaval;
@@ -2912,6 +2929,7 @@ export default {
             this.cr1Formato        = this.modelo.oCRUD01.Campos[idx].formato;
             this.cr1ValorDefault   = this.modelo.oCRUD01.Campos[idx].valordefault;
             this.cr1EnabledInicial = this.modelo.oCRUD01.Campos[idx].enabledinicial;
+            this.cr1Requerido      = this.modelo.oCRUD01.Campos[idx].requerido     ;
             this.cr1Listaval       = this.modelo.oCRUD01.Campos[idx].listaval;
             this.cr1Selectable     = this.modelo.oCRUD01.Campos[idx].selectable;
 

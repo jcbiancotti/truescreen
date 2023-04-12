@@ -1,7 +1,7 @@
 <script>
 
 const EMPRESA = 'True Software España';
-const PRODUCCION = false;
+const PRODUCCION = true;
 let ENDPOINT_PATH;
 const DEBUG = true;
 let usuario = {
@@ -14,7 +14,7 @@ let usuario = {
 }        
 
 if(PRODUCCION == true) {
-    ENDPOINT_PATH = 'http://biancotti.es/trueback/';
+    ENDPOINT_PATH = 'https://www.biancotti.es/Backend22/';
 } else {
     ENDPOINT_PATH = 'http://localhost/Backend22/';
 }
